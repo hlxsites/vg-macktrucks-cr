@@ -121,7 +121,7 @@ export default async function decorate(block) {
 
     // Logo
     const logo = createElement('div');
-    const logoLink = createElement('a', { props: { href: 'https://www.macktrucks.com/' } });
+    const logoLink = createElement('a', { props: { href: 'https://www.macktrucks.cr/' } });
     const svgLogo = document.createRange().createContextualFragment(`
     <svg xmlns="http://www.w3.org/2000/svg" width="193" height="19" viewBox="0 0 193 19">
       <g clip-path="url(#clip0_4707_6556)">
