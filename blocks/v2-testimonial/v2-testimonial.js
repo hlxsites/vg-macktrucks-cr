@@ -63,7 +63,15 @@ export default async function decorate(block) {
     });
 
     const blockquotes = [...col.querySelectorAll('blockquote')];
-    blockquotes.forEach((bq) => bq.classList.add(`${blockClass}__blockquote`));
+    blockquotes.forEach((bq) => {
+      const em = bq.querySelector('em');
+
+      if (em) {
+        em.outerHTML = em.innerHTML;
+      }
+
+      bq.classList.add(`${blockClass}__blockquote`);
+    });
 
     // recognizing the column with blockquotes
     blockquotes.forEach((bq) => {

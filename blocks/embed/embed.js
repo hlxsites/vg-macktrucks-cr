@@ -1,19 +1,32 @@
 import {
   selectVideoLink, addPlayIcon, showVideoModal, isLowResolutionVideoUrl, createIframe,
-  createLowResolutionBanner,
+  createLowResolutionBanner, videoTypes,
 } from '../../scripts/video-helper.js';
 
 export default function decorate(block) {
+  const { youtube, local, both } = videoTypes;
   const isAutoplay = block.classList.contains('autoplay');
   const isLoopedVideo = block.classList.contains('loop');
   const isFullWidth = block.classList.contains('full-width');
+  const isYoutubeOnly = block.classList.contains('youtube-only');
+  const isLocalOnly = block.classList.contains('local-only');
+  const isBothOrDefault = block.classList.contains('both') || (!isYoutubeOnly && !isLocalOnly);
   const videoWrapper = document.createElement('div');
   // removing classes to avoid collision with other css
   block.classList.remove('loop', 'autoplay', 'full-width');
   videoWrapper.classList.add('embed-video');
 
+  let videoType;
+  if (isBothOrDefault) {
+    videoType = both;
+  } else if (isYoutubeOnly) {
+    videoType = youtube;
+  } else if (isLocalOnly) {
+    videoType = local;
+  }
+
   const links = block.querySelectorAll('a');
-  const selectedLink = selectVideoLink(links, isFullWidth ? 'local' : 'auto');
+  const selectedLink = selectVideoLink(links, isFullWidth ? 'local' : 'auto', videoType);
   const video = document.createElement('video');
   const source = document.createElement('source');
 
@@ -66,7 +79,7 @@ export default function decorate(block) {
       });
     }
 
-    if (!isFullWidth) {
+    if (!isFullWidth && !isLocalOnly) {
       const banner = createLowResolutionBanner();
       videoWrapper.prepend(banner);
     }

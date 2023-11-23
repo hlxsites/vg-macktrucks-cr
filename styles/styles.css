@@ -39,7 +39,7 @@
   --link-color: var(--c-accent-red);
   --link-hover-color: var(--c-primary-black);
   --header-color: var(--c-primary-white);
-  --header-background-color: var(--c-primary-black);
+  --header-background-color: var(--c-primary-white);
   --overlay-background-color: var(--c-secondary-silver);
 
   /* BUTTONS */
@@ -115,6 +115,11 @@
   /* Wrapper for generic components */
   --wrapper-width: 1040px;
 
+  /* COLORS START */
+  --c-primary-gray: #f1f1f1;
+  --c-secondary-light-gray: #F4F5F6;
+
+  /* COLORS END */
 
   /*
   OLD CSS VARIABLES
@@ -147,7 +152,7 @@
   --heading-font-size-m: calc(4rem * var(--heading-font-size-scale)); /* 20px */
   --heading-font-size-s: calc(3.6rem * var(--heading-font-size-scale)); /* 18px */
   --heading-font-size-xs: calc(3.2rem * var(--heading-font-size-scale)); /* 16px */
-  --heading-font-size-xxs: calc(2rem * var(--heading-font-size-scale));  /* 10px */
+  --heading-font-size-xxs: calc(2rem * var(--heading-font-size-scale)); /* 10px */
 
   /* Heading font sizes DESKTOP */
   --heading-desktop-font-size-scale: 0.5;
@@ -159,12 +164,13 @@
   --heading-4-mobile-size-s: calc(4.8rem * var(--heading-font-size-scale)); /* 24px */
 
   /* nav sizes */
+  --nav-width: 1376px;
   --nav-height-m: 60px;
-  --nav-height-l: 85px;
+  --nav-height-l: 80px;
   --nav-height: var(--nav-height-m);
 }
 
-@media (min-width: 1140px) {
+@media (min-width: 1200px) {
   :root {
     --nav-height: var(--nav-height-l);
   }
@@ -201,13 +207,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 3;
-  min-height: var(--nav-height-m);
-}
-
-@media (min-width: 1140px) {
-  header {
-    min-height: var(--nav-height-l);
-  }
+  min-height: var(--nav-height);
 }
 
 h1, h2, h3,
@@ -219,19 +219,36 @@ h4, h5, h6,
   line-height: 1.25;
   margin-top: 1em;
   margin-bottom: 0.5em;
-  scroll-margin: calc(var(--nav-height-m) + 1em);
+  scroll-margin: calc(var(--nav-height) + 1em);
 }
 
 h1, h2 {
   font-family: var(--ff-headline-medium);
 }
 
-h1 { font-size: var(--heading-font-size-xxl); }
-h2 { font-size: var(--heading-font-size-xl); }
-h3 { font-size: var(--heading-font-size-l); }
-h4 { font-size: var(--heading-font-size-m); }
-h5 { font-size: var(--heading-font-size-s); }
-h6 { font-size: var(--heading-font-size-xs); }
+h1 {
+  font-size: var(--heading-font-size-xxl);
+}
+
+h2 {
+  font-size: var(--heading-font-size-xl);
+}
+
+h3 {
+  font-size: var(--heading-font-size-l);
+}
+
+h4 {
+  font-size: var(--heading-font-size-m);
+}
+
+h5 {
+  font-size: var(--heading-font-size-s);
+}
+
+h6 {
+  font-size: var(--heading-font-size-xs);
+}
 
 p, dl, ol, ul, pre, blockquote {
   margin-top: 1em;
@@ -371,7 +388,7 @@ main .section.text-white {
 }
 
 main .section.text-white,
-main .section.black-background {
+main .section.section--black-background {
   background-color: var(--c-primary-black);
 }
 
@@ -496,7 +513,7 @@ main img {
 }
 
 @media (min-width: 900px) {
-  .section > div {
+  :where(html:not(.redesign-v2)) .section > div {
     max-width: 1200px;
     margin: auto;
   }
@@ -777,6 +794,9 @@ main .section.responsive-title h1 {
   --v2-space-small: 16px;
   --color-icon: var(--c-primary-black);
   --color-icon-accent: var(--c-primary-gold);
+  --section-max-width: 1920px;
+  --section-padding: 40px 0;
+  --section-div-padding: 24px var(--v2-space-small);
 
   font-size: 16px;
 
@@ -836,7 +856,7 @@ main .section.responsive-title h1 {
   /* GT America, Extended Roman, 24px, 120%, -2% / 18px, 120%, -2% */
   --testimonial-font-size: 1.125rem; /* 18px */
   --testimonial-line-height: 120%;
-  --testimonial-letter-spacing: -2%;
+  --testimonial-letter-spacing: -.0225rem;
 
   /* Motions */
   --duration-small: 160ms;
@@ -894,7 +914,6 @@ main .section.responsive-title h1 {
   line-height: var(--headline-5-line-height);
 }
 
-
 /* ICONS STYLES */
 
 /* icons on gold background */
@@ -911,7 +930,7 @@ main .section.responsive-title h1 {
 
 /* REDESIGN Buttons */
 /* stylelint-disable-next-line no-descending-specificity */
-.redesign-v2 a.button:any-link, 
+.redesign-v2 a.button:any-link,
 .redesign-v2 button {
   font-weight: normal;
 }
@@ -923,7 +942,7 @@ main .section.responsive-title h1 {
   border-radius: 2px;
   border: 1px solid transparent;
   display: inline-flex;
-  font-family: var(--ff-body);
+  font-family: var(--ff-subheadings-medium);
   font-size: var(--button-font-size);
   font-weight: normal;
   gap: 10px;
@@ -934,10 +953,9 @@ main .section.responsive-title h1 {
   padding: 12px 20px 8px;
   text-align: center;
   text-decoration: none;
-  transition:
-    background-color var(--duration-small) var(--easing-standard),
-    color var(--duration-small) var(--easing-standard),
-    border-color  var(--duration-small) var(--easing-standard);
+  transition: background-color var(--duration-small) var(--easing-standard),
+  color var(--duration-small) var(--easing-standard),
+  border-color var(--duration-small) var(--easing-standard);
 }
 
 .redesign-v2 a.button--small,
@@ -1001,17 +1019,118 @@ main .section.responsive-title h1 {
   border-color: #D9D9D9;
 }
 
+/* Section Background colors */
+.redesign-v2 .section--black-background,
+.redesign-v2 .section--gray-background {
+  --card-background: var(--c-primary-white);
+  --card-text: var(--c-primary-black);
+}
+
+.redesign-v2 .section--black-background {
+  --text-color: var(--c-primary-white);
+
+  color: var(--text-color);
+  background-color: var(--c-secondary-graphite);
+}
+
+.redesign-v2 .section--gray-background {
+  --text-color: var(--c-primary-black);
+
+  color: var(--text-color);
+  background-color: var(--c-secondary-silver);
+}
+
+.redesign-v2 .section--background-with-dots {
+  position: relative;
+  z-index: 1;
+}
+
+.redesign-v2 .section--background-with-dots::after {
+  background-image: url('../../media/dots.svg');
+  background-position: top right 10px;
+  bottom: 0;
+  content: '';
+  display: block;
+  height: 60%;
+  height: round(60%, 24px);
+  width: 40%;
+  width: round(40%, 24px);;
+  position: absolute;
+  right: 0;
+  z-index: 1;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.redesign-v2 .section--background-with-dots > div {
+  position: relative;
+  z-index: 2;
+}
+
+.redesign-v2 .section--with-background {
+  --section-padding: 0;
+  --text-color: var(--c-primary-white);
+
+  aspect-ratio: 2 / 1;
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: var(--section-max-width);
+  position: relative;
+}
+
+.redesign-v2 .section--with-background .default-content-wrapper {
+  background-color: var(--c-secondary-graphite);
+}
+
+.redesign-v2 .section--with-background > picture:first-of-type img {
+  display: block;
+  height: 100%;
+  object-fit: cover;
+  width: 100%;
+}
+
+/* End section Background colors */
+
 /* stylelint-disable-next-line no-descending-specificity */
 .redesign-v2 .section {
-  padding: 40px 0;
+  padding: var(--section-padding);
   scroll-margin-top: calc(var(--nav-height) + var(--inpage-navigation-height));
 }
 
 /* stylelint-disable-next-line no-descending-specificity */
 .redesign-v2 .section > div {
-  padding: 0 var(--v2-space-small);
-  margin: 0 auto;
+  padding: var(--section-div-padding);
+  max-width: var(--wrapper-width);
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
 }
+
+/* Remove padding top of consecutive sections with background image or colors */
+.redesign-v2 .section:first-child,
+.redesign-v2 .v2-testimonial-container,
+.redesign-v2 .section:not(.section--black-background, .section--gray-background, .v2-hero-container, .section--with-background) + .section:not(.section--black-background, .section--gray-background, .section--with-background) {
+  padding-top: 0;
+}
+
+/* Prevent padding in blocks that contain multiple sections */
+/* stylelint-disable-next-line no-descending-specificity */
+.section:has(+ .v2-truck-lineup-container, + .v2-tabbed-carousel-wrapper) {
+  padding-bottom: 0;
+}
+
+/* Prevent margins for first and last element of a text */
+.redesign-v2 .section > div.default-content-wrapper > *:first-child {
+  margin-top: 0;
+}
+
+.redesign-v2 .section > div.default-content-wrapper > *:last-child {
+  margin-bottom: 0;
+}
+
+/* END Prevent margins for first and last element of a text */
 
 .redesign-v2 .section > .full-width {
   padding: 0;
@@ -1024,7 +1143,8 @@ main .section.responsive-title h1 {
   padding: 0;
 }
 
-.section.header-with-mark > .default-content-wrapper:first-child > h1:first-child::before,
+.section.header-with-mark > .default-content-wrapper:first-of-type > h1:first-child::before,
+.section.header-with-mark > .default-content-wrapper:first-of-type > h2:first-child::before,
 .redesign-v2 .with-marker::before {
   content: '';
   margin: 0;
@@ -1040,7 +1160,7 @@ main .section.responsive-title h1 {
   align-items: center;
   color: var(--c-primary-black);
   display: inline-flex;
-  font-family: var(--ff-body-bold);
+  font-family: var(--ff-subheadings-medium);
   font-size: var(--button-font-size);
   gap: 4px;
   letter-spacing: 1.12px;
@@ -1048,8 +1168,7 @@ main .section.responsive-title h1 {
   background: transparent;
 }
 
-.redesign-v2 a.standalone-link:active,
-.redesign-v2 a.standalone-link:visited {
+.redesign-v2 a.standalone-link:active {
   color: var(--c-tertiary-cool-gray);
 }
 
@@ -1060,6 +1179,14 @@ main .section.responsive-title h1 {
 }
 
 @media (min-width: 1040px) {
+  .section.header-with-mark > .default-content-wrapper:first-of-type > h1:first-child::before,
+  .section.header-with-mark > .default-content-wrapper:first-of-type > h2:first-child::before,
+  .redesign-v2 .with-marker::before {
+    width: 65px;
+  }
+}
+
+@media (min-width: 1072px) {
   .redesign-v2 .section {
     padding: 80px 0;
   }
@@ -1069,9 +1196,23 @@ main .section.responsive-title h1 {
     max-width: var(--wrapper-width);
     padding: 0;
   }
+}
 
-  .redesign-v2 .with-marker::before {
-    width: 65px;
+@media (min-width: 744px) {
+  .section--background-with-dots::after {
+    height: 75%;
+    height: round(75%, 24px);
+    width: 55%;
+    width: round(55%, 24px);
+    background-position: top right;
+  }
+
+  .section--with-background {
+    --text-color: var(--c-primary-black);
+  }
+
+  .section--with-background .default-content-wrapper {
+    background-color: transparent;
   }
 }
 
@@ -1083,11 +1224,53 @@ main .section.responsive-title h1 {
     --headline-2-font-size: 2rem; /* 32px */
     --headline-3-font-size: 2rem; /* 32px */
     --testimonial-font-size: 1.5rem; /* 24px */
+    --testimonial-letter-spacing: -.03rem;
+    --section-div-padding: 24px 0;
+    --section-padding: 56px 0;
+  }
+
+  .section--with-background {
+    --section-padding: 56px 0;
+    --text-color: var(--c-primary-white);
+
+    justify-content: flex-end;
+  }
+
+  .redesign-v2 .v2-testimonial-container {
+    padding: var(--section-div-padding);
+  }
+
+  .section--with-background > picture:first-of-type img {
+    display: block;
+    height: 100%;
+    left: 50%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    transform: translateX(-50%);
+    width: 100%;
+    z-index: -1;
   }
 }
 
+.redesign-v2 .pretitle {
+  font: normal var(--accent-2-font-size)/1.2 var(--ff-accents);
+}
 
 /* CLS OPTIMIZATION */
 .v2-hero {
   height: calc(100vh - var(--nav-height));
+}
+
+.screenreader {
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  white-space: nowrap;
 }

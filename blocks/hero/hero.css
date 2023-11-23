@@ -221,7 +221,7 @@ main .hero.specs .hero-content-wrapper p {
 main .hero.specs .hero-content-wrapper h1 {
     color: var(--c-primary-black);
     font-family: var(--ff-body-bold);
-    font-size: var(--nav-height-m);
+    font-size: 60px;
     width: 100%;
     margin: 50px auto;
 }
@@ -235,7 +235,7 @@ main .hero.specs .hero-content-wrapper h1::after {
 
 @media (min-width: 650px) {
     main .hero.specs .hero-content-wrapper h1 {
-        font-size: var(--nav-height-l);
+        font-size: 85px;
     }
 
     main .hero.specs {

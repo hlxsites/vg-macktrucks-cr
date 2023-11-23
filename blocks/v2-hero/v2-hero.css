@@ -24,7 +24,8 @@
   padding: 40px 16px;
   display: flex;
   flex-direction: column;
-  max-width: 1040px;
+  max-width: var(--wrapper-width);
+  width: 100%;
 }
 
 .v2-hero__heading {
@@ -60,8 +61,6 @@
 
 @media (min-width: 1200px) {
   .v2-hero__content {
-    max-width: 1040px;
-    width: 1040px;
     margin: 0 auto;
     padding: 0 0 78px;
   }
@@ -92,7 +91,6 @@
   height: 68px;
   padding: 0;
   max-width: unset;
-  width: 100%;
 
   @media (min-width: 1200px) {
     min-height: 160px;

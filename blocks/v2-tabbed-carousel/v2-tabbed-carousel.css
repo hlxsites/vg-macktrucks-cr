@@ -16,6 +16,10 @@
   background-color: var(--bg-color);
 }
 
+main .section.v2-tabbed-carousel-container {
+  padding: 0;
+}
+
 .v2-tabbed-carousel__items {
   align-items: flex-end;
   display: flex;

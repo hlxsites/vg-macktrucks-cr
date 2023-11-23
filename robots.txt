@@ -1,4 +1,4 @@
 User-agent: *
 Disallow:
 
-Sitemap: https://www.macktrucks.com/sitemap.xml
+Sitemap: https://www.macktrucks.cr/sitemap.xml

@@ -1,5 +1,5 @@
 sitemaps:
   allindex:
-    origin: https://www.macktrucks.com
+    origin: https://www.macktrucks.cr
     source: /query-index.json
     destination: /sitemap.xml

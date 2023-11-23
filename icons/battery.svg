@@ -1,0 +1,12 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g stroke="var(--color-icon-accent, #B3976B)">
+    <path d="M19.5 9V23"/>
+    <path d="M16.5 9V23"/>
+    <path d="M13.5 9V23"/>
+    <path d="M10.5 9V23"/>
+    <path d="M7.5 9V23"/>
+    <path d="M4.5 9V23"/>
+    <path d="M30.5 13V19"/>
+  </g>
+  <rect x="1.5" y="8.5" width="28" height="15" stroke="var(--color-icon, #000)"/>
+</svg>

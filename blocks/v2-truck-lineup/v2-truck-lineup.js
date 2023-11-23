@@ -20,7 +20,29 @@ const moveNavigationLine = (navigationLine, activeTab, tabNavigation) => {
   });
 };
 
+const setNavigationLine = (tabNavigation) => {
+  const navWidth = tabNavigation.offsetWidth;
+  const viewportWidth = document.documentElement.clientWidth;
+  const listItems = tabNavigation.querySelectorAll(`.${blockName}__navigation-item`);
+  let totalWidth = 0;
+
+  [...listItems].forEach((listItem) => {
+    totalWidth += listItem.getBoundingClientRect().width;
+  });
+
+  if ((totalWidth + 32) <= navWidth) {
+    if ((navWidth === 1040) && (viewportWidth >= 1200)) {
+      tabNavigation.style.setProperty('--truck-lineup-border-scale', `${navWidth}`);
+    } else {
+      tabNavigation.style.setProperty('--truck-lineup-border-scale', `${navWidth - 32}`);
+    }
+  } else {
+    tabNavigation.style.setProperty('--truck-lineup-border-scale', `${totalWidth}`);
+  }
+};
+
 function buildTabNavigation(tabItems, clickHandler) {
+  const tabNavigationContainer = createElement('div', { classes: `${blockName}__navigation-container` });
   const tabNavigation = createElement('ul', { classes: `${blockName}__navigation` });
   const navigationLine = createElement('li', { classes: `${blockName}__navigation-line` });
   let timeout;
@@ -50,8 +72,9 @@ function buildTabNavigation(tabItems, clickHandler) {
   });
 
   tabNavigation.append(navigationLine);
+  tabNavigationContainer.append(tabNavigation);
 
-  return tabNavigation;
+  return tabNavigationContainer;
 }
 
 const updateActiveItem = (index) => {
@@ -59,6 +82,7 @@ const updateActiveItem = (index) => {
   const descriptions = document.querySelector(`.${blockName}__description-container`);
   const navigation = document.querySelector(`.${blockName}__navigation`);
   const navigationLine = document.querySelector(`.${blockName}__navigation-line`);
+  const tabNavigation = document.querySelector(`.${blockName}__navigation`);
 
   [images, descriptions, navigation].forEach((c) => c.querySelectorAll('.active').forEach((i) => i.classList.remove('active')));
   images.children[index].classList.add('active');
@@ -67,6 +91,7 @@ const updateActiveItem = (index) => {
 
   const activeNavigationItem = navigation.children[index].querySelector('button');
   moveNavigationLine(navigationLine, activeNavigationItem, navigation);
+  setNavigationLine(tabNavigation);
 
   // Center navigation item
   const navigationActiveItem = navigation.querySelector('.active');
@@ -247,5 +272,8 @@ export default async function decorate(block) {
     const activeItem = imagesContainer.querySelector(`.${blockName}__image-item.active`);
     const index = [...activeItem.parentNode.children].indexOf(activeItem);
     updateActiveItem(index);
+    setTimeout(() => {
+      setNavigationLine(tabNavigation);
+    }, 100);
   });
 }

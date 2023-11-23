@@ -16,12 +16,13 @@ const updateListElements = (ul, isDarkVar = false, isCTABlock = false) => {
       const buttons = li.querySelectorAll('.cards-card-body .button-container');
       const { length } = buttons;
       if (length === 0) return;
-      const tempLink = [...buttons].at(-1).firstChild;
-      const newLink = createElement('a', '', {
+      // Last button is the one we want to use at card level
+      const tempLink = [...buttons].at(-1).querySelector('a');
+      const newLink = createElement('a', {
         props: { href: tempLink.href, title: tempLink.title },
       });
 
-      buttons[length - 1].remove();
+      buttons[length - 1].remove(); // remove last button
       newLink.innerHTML = li.innerHTML;
       li.textContent = '';
       li.appendChild(newLink);

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+  <g fill="var(--color-icon, #000)">
+    <path d="M6 24V30H2V24H6ZM7 23H1V31H7V23Z" />
+    <path d="M14 18V30H10V18H14ZM15 17H9V31H15V17Z" />
+    <path d="M22 18V30H18V12H22ZM23 11H17V31H23V11Z" />
+  </g>
+  <path d="M30 8V30H26V8H30ZM31 7H25V31H31V7Z" fill="var(--color-icon-accent, #B3976B)"/>
+  <path d="M25 4.5H31" stroke="var(--color-icon-accent, #B3976B)" stroke-miterlimit="10"/>
+</svg>

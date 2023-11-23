@@ -1,0 +1,8 @@
+<svg width="100px" height="100px" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <pattern viewBox="0 0 24 24" height="25" width="25" id="dots-square-grid" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1.5" fill="#B3976B"/>
+    </pattern>
+  </defs>
+  <rect fill="url(#dots-square-grid)" height="100%" width="100%" x="0" y="0"/>
+</svg>

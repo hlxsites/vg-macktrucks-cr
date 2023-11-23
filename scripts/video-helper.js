@@ -1,5 +1,11 @@
 import { createElement, getTextLabel } from './common.js';
 
+export const videoTypes = {
+  youtube: 'youtube',
+  local: 'local',
+  both: 'both',
+};
+
 /* video helpers */
 export function isLowResolutionVideoUrl(url) {
   return url.split('?')[0].endsWith('.mp4');
@@ -12,11 +18,14 @@ export function isVideoLink(link) {
     && link.closest('.block.embed') === null;
 }
 
-export function selectVideoLink(links, preferredType) {
+export function selectVideoLink(links, preferredType, videoType = videoTypes.both) {
+  const isDefault = videoType === videoTypes.both;
   const linksList = [...links];
-  const optanonConsentCookieValue = decodeURIComponent(document.cookie.split(';').find((cookie) => cookie.trim().startsWith('OptanonConsent=')));
+  const optanonConsentCookieValue = decodeURIComponent(document.cookie.split(';')
+    .find((cookie) => cookie.trim().startsWith('OptanonConsent=')));
   const cookieConsentForExternalVideos = optanonConsentCookieValue.includes('C0005:1');
-  const shouldUseYouTubeLinks = cookieConsentForExternalVideos && preferredType !== 'local';
+  const shouldUseYouTubeLinks = (cookieConsentForExternalVideos && preferredType !== 'local')
+    || (!isDefault && videoType === videoTypes.youtube);
   const youTubeLink = linksList.find((link) => link.getAttribute('href').includes('youtube.com/embed/'));
   const localMediaLink = linksList.find((link) => link.getAttribute('href').split('?')[0].endsWith('.mp4'));
 
@@ -42,7 +51,7 @@ export function createLowResolutionBanner() {
 export function showVideoModal(linkUrl) {
   // eslint-disable-next-line import/no-cycle
   import('../common/modal/modal-component.js').then((modal) => {
-    let beforeBanner = null;
+    let beforeBanner = {};
 
     if (isLowResolutionVideoUrl(linkUrl)) {
       beforeBanner = createLowResolutionBanner();
