@@ -105,7 +105,8 @@ function addSliderControls(contentWrapper, slidesLength) {
 }
 
 function decorateSlider(container) {
-  const tabContent = container.querySelector('#explore-trucks + .tab-content');
+  // explore trucks' slider has to be the 1st h4 element
+  const tabContent = container.querySelector('h4:first-of-type + .tab-content');
   const contentWrapper = tabContent.querySelector('.content-wrapper');
   const sliderWrapper = contentWrapper.children[0]; // div with data-align center
 
