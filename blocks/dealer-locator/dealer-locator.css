@@ -60,14 +60,13 @@ main .section.dealer-locator-container > div {
     width: 100% !important;
     height: calc(100vh - var(--nav-height));
     position: absolute;
-    top: var(--nav-height);
     left: 0;
 }
 
 @supports (height: 1svh) {
-  .dealer-locator {
-    height: calc(100svh - var(--nav-height));
-  }
+    .dealer-locator {
+      height: calc(100svh - var(--nav-height));
+    }
 }
 
 .dealer-locator input[type=text],
@@ -723,12 +722,12 @@ main .section.dealer-locator-container > div {
 }
 
 @media (max-width: 992px) {
-    .dealer-locator #map .gm-bundled-control {
-        display: none;
+    .dealer-locator #map {
+        height: calc(50% - 41px);
     }
 
-    .dealer-locator #map {
-        height: calc(50% - 41px)
+    .dealer-locator #map .gm-bundled-control {
+        display: none;
     }
 }
 
@@ -750,7 +749,9 @@ main .section.dealer-locator-container > div {
     .dealer-locator .mobile-main-header {
         display: block;
         border: 1px solid;
-        height: 39px
+        height: 39px;
+        position: relative;
+        z-index: 1;
     }
 
     .dealer-locator .mobile-main-header .row {
@@ -2557,4 +2558,9 @@ footer {
 .tooltip.bottom-right .tooltip-arrow {
     left: 5px;
     margin-top: -5px
+}
+
+.legend-header,
+.dealer-locator .sidebar .panel-card .panel-filter-distance {
+    display: none;
 }
