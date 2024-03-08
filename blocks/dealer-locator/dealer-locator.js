@@ -1,12 +1,20 @@
 import { loadScript } from '../../scripts/lib-franklin.js';
 
+function escapeHTML(input) {
+  return input.replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
 export default async function decorate(block) {
   const searchParams = new URLSearchParams(window.location.search);
   const hasZipLocation = searchParams.has('l');
   const MQ = window.matchMedia('(max-width: 992px)');
   const isMobile = MQ.matches;
   // add the zip code to the input search, if it is present
-  const zipCode = hasZipLocation ? searchParams.get('l') : null;
+  const zipCode = hasZipLocation ? escapeHTML(searchParams.get('l')) : null;
   const datasource = block.textContent.trim();
   window.locatorConfig = {
     asist: false,
