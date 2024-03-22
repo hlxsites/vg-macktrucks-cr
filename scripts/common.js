@@ -6,7 +6,9 @@ import {
   loadHeader,
   loadFooter,
 } from './lib-franklin.js';
+import { COOKIE_VALUES, COOKIE_CHECK } from './constants.js';
 
+const { performance, targeting, social } = COOKIE_VALUES;
 let placeholders = null;
 
 export async function getPlaceholders() {
@@ -116,8 +118,8 @@ export async function loadLazy(doc) {
  * the user experience.
  */
 export function loadDelayed() {
-  // eslint-disable-next-line import/no-cycle
   window.setTimeout(() => {
+    // eslint-disable-next-line import/no-cycle
     import('./delayed.js');
   }, 3000);
   // load anything that can be postponed to the latest here
@@ -181,13 +183,21 @@ export const slugify = (text) => (
  * Check if one trust group is checked.
  * @param {String} groupName the one trust croup like: C0002
  */
-export function checkOneTruckGroup(groupName) {
+export function checkOneTrustGroup(groupName, cookieCheck = false) {
   const oneTrustCookie = decodeURIComponent(document.cookie.split(';').find((cookie) => cookie.trim().startsWith('OptanonConsent=')));
-  return oneTrustCookie.includes(`${groupName}:1`);
+  return cookieCheck || oneTrustCookie.includes(`${groupName}:1`);
 }
 
-export function isEloquaFormAllowed() {
-  return checkOneTruckGroup('C0004');
+export function isPerformanceAllowed() {
+  return checkOneTrustGroup(performance, COOKIE_CHECK);
+}
+
+export function isTargetingAllowed() {
+  return checkOneTrustGroup(targeting, COOKIE_CHECK);
+}
+
+export function isSocialAllowed() {
+  return checkOneTrustGroup(social, COOKIE_CHECK);
 }
 
 /**
