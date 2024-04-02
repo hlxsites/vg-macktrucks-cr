@@ -1,5 +1,5 @@
 import { loadScriptIfNotLoadedYet } from '../../scripts/scripts.js';
-import { createElement, getTextLabel, isEloquaFormAllowed } from '../../scripts/common.js';
+import { createElement, getTextLabel, isTargetingAllowed } from '../../scripts/common.js';
 
 // Every eloqua form has it's own JS, CSS and HTML.
 // Once the form is loaded all the JS and CSS are added to the body.
@@ -169,7 +169,7 @@ const addNoCookieMessage = (messageContainer) => {
 export default async function decorate(block) {
   const observer = new IntersectionObserver((entries) => {
     if (entries.some((e) => e.isIntersecting)) {
-      if (!isEloquaFormAllowed()) {
+      if (!isTargetingAllowed()) {
         addNoCookieMessage(block);
 
         return;
