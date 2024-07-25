@@ -162,6 +162,11 @@
   margin: auto;
 }
 
+.explore-articles-section .explore-articles-content .category-field,
+.explore-articles-section .explore-articles-content .trucks-field {
+  padding-bottom: 20px;
+}
+
 @media (min-width: 768px) {
   .explore-articles-section .explore-articles-content fieldset {
     display: flex;
@@ -171,6 +176,7 @@
   .explore-articles-section .explore-articles-content .category-field,
   .explore-articles-section .explore-articles-content .trucks-field {
     width: 100%;
+    padding-bottom: 5px;
   }
 
   .explore-articles-section .explore-articles-articles .article-list {

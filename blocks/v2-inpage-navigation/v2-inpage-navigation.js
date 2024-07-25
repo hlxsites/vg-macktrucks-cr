@@ -1,5 +1,9 @@
 import { getMetadata } from '../../scripts/lib-franklin.js';
-import { createElement, debounce } from '../../scripts/common.js';
+import {
+  createElement,
+  debounce,
+  decorateIcons,
+} from '../../scripts/common.js';
 
 const blockName = 'v2-inpage-navigation';
 
@@ -22,13 +26,13 @@ const scrollToSection = (id) => {
   resizeObserver.observe(main);
 };
 
-const inpageNavigationRedButton = () => {
+const inpageNavigationButton = () => {
   // if we have a button title & button link
   if (getMetadata('inpage-button') && getMetadata('inpage-link')) {
     const titleMobile = getMetadata('inpage-button');
     const url = getMetadata('inpage-link');
     const link = createElement('a', {
-      classes: `${blockName}__cta`,
+      classes: ['button', 'button--large', 'button--red', `${blockName}__cta`],
       props: {
         href: url,
         title: titleMobile,
@@ -95,7 +99,7 @@ const updateActive = (id) => {
   // Remove focus position
   document.activeElement.blur();
 
-  // check active id is equal to id dont do anything
+  // check active id is equal to id don't do anything
   const selectedItem = document.querySelector(`.${blockName}__selected-item`);
   activeItemInList?.classList.remove(`${blockName}__item--active`);
   const itemsButton = document.querySelectorAll(`.${blockName}__items button`);
@@ -114,7 +118,7 @@ const updateActive = (id) => {
 };
 
 export default async function decorate(block) {
-  const redButton = inpageNavigationRedButton();
+  const ctaButton = inpageNavigationButton();
 
   const wrapper = block.querySelector(':scope > div');
   wrapper.classList.add(`${blockName}__wrapper`);
@@ -138,10 +142,9 @@ export default async function decorate(block) {
     list.appendChild(listItem);
   });
 
-  const dropdownArrowIcon = document.createRange().createContextualFragment(`
-    <svg xmlns="http://www.w3.org/2000/svg"><use href="#icons-sprite-dropdown-caret"></use></svg>`);
+  const dropdownArrowIcon = createElement('span', { classes: [`${blockName}__icon`, 'icon', 'icon-dropdown-caret'] });
   selectedItemWrapper.append(selectedItem);
-  selectedItemWrapper.appendChild(...dropdownArrowIcon.children);
+  selectedItemWrapper.appendChild(dropdownArrowIcon);
 
   dropdownWrapper.append(selectedItemWrapper);
   dropdownWrapper.append(list);
@@ -149,8 +152,8 @@ export default async function decorate(block) {
 
   itemsWrapper.remove();
 
-  if (redButton) {
-    wrapper.appendChild(redButton);
+  if (ctaButton) {
+    wrapper.appendChild(ctaButton);
   }
 
   list.addEventListener('click', gotoSection);
@@ -196,4 +199,6 @@ export default async function decorate(block) {
     const isStuck = block.getBoundingClientRect().top <= navHeight;
     block.classList[isStuck ? 'add' : 'remove']('v2-inpage-navigation--stuck');
   }));
+
+  decorateIcons(block);
 }

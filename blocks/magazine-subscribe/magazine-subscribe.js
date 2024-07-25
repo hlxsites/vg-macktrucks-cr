@@ -1,37 +1,35 @@
 import {
-  createElement, getTextLabel,
+  buildBlock,
+  decorateBlock,
+  loadBlock,
+} from '../../scripts/lib-franklin.js';
+import {
+  createElement,
+  getTextLabel,
+  MAGAZINE_CONFIGS,
 } from '../../scripts/common.js';
 
 export default async function decorate(block) {
-  const children = block.querySelectorAll('p');
-  const subscribeText = getTextLabel('SUBSCRIBE TO BULLDOG');
-  const [picture, title, subtitle, text] = children;
+  const content = document.createRange().createContextualFragment(`
+    <div class="default-content-wrapper">
+      <h2 id="subscribe-to-bulldog-magazine">${getTextLabel('form-subscribe-magazine:heading')}</h2>
+      <p>${getTextLabel('form-subscribe-magazine:text')}</p>
+    </div>
+  `);
 
-  const generalSection = createElement('div', { classes: 'magazine-subscribe-section' });
-  const imageSection = createElement('div', { classes: 'magazine-subscribe-image' });
-  const contentSection = createElement('div', { classes: 'magazine-subscribe-content' });
-
-  title.classList.add('magazine-subscribe-title');
-  subtitle.classList.add('magazine-subscribe-subtitle');
-  text.classList.add('magazine-subscribe-text');
-
-  const buttonContainer = createElement('div', {
-    classes: ['magazine-subscribe-button', 'button-container'],
-    props: { type: 'button' },
+  const iframeLink = createElement('a', {
+    classes: 'iframe-link',
+    props: { href: MAGAZINE_CONFIGS.HREF },
   });
 
-  const button = createElement('button', { classes: 'subscribe-button' });
-  button.textContent = subscribeText;
-
-  buttonContainer.append(button);
-
-  const image = picture.querySelector('picture');
-
-  generalSection.append(imageSection, contentSection);
-
-  imageSection.append(image);
-  contentSection.append(title, subtitle, text, buttonContainer);
-
   block.textContent = '';
-  block.append(generalSection);
+  block.append(content);
+  block.parentElement.classList.add('section', 'center', 'padding-0');
+  block.parentElement.setAttribute('data-form-type', 'Subscribe-magazine');
+
+  const iframeForm = buildBlock('iframe', { elems: [iframeLink] });
+  block.insertAdjacentElement('afterend', iframeForm);
+  iframeForm.classList.add(MAGAZINE_CONFIGS.IFRAME_SIZE);
+  decorateBlock(iframeForm);
+  loadBlock(iframeForm);
 }

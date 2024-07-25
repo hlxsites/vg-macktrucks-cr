@@ -149,9 +149,9 @@ const addForm = async (block) => {
   block.style.display = displayValue;
 };
 
-const addNoCookieMessage = (messageContainer) => {
-  const messageText = getTextLabel('no eloqua message');
-  const messageLinkText = getTextLabel('no eloqua link message');
+export const addNoCookieMessage = (messageContainer) => {
+  const messageText = getTextLabel('no form message');
+  const messageLinkText = getTextLabel('no form link message');
 
   const messageEl = createElement('div', ['eloqua-form-no-cookie']);
   messageEl.innerHTML = `

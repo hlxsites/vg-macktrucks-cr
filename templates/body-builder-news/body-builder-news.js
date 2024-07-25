@@ -1,11 +1,13 @@
 import {
   getMetadata,
-  decorateIcons,
   buildBlock,
   decorateBlock,
 } from '../../scripts/lib-franklin.js';
 import { findAndCreateImageLink } from '../../scripts/scripts.js';
-import { createElement } from '../../scripts/common.js';
+import {
+  createElement,
+  decorateIcons,
+} from '../../scripts/common.js';
 
 async function buildNewsData(h1) {
   const pubdate = getMetadata('date');

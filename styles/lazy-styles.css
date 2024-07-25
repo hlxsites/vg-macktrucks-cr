@@ -4,9 +4,7 @@
 @font-face {
   font-family: 'GT America Extended Medium';
   src: url('../fonts/GT-America-Extended-Medium.woff2') format('woff2'),
-  url('../fonts/GT-America-Extended-Medium.woff') format('woff'),
-  url('../fonts/GT-America-Extended-Medium.otf') format('opentype'),
-  url('../fonts/GT-America-Extended-Medium.ttf') format('truetype');
+  url('../fonts/GT-America-Extended-Medium.woff') format('woff');
   font-display: swap;
 }
 
@@ -14,6 +12,13 @@
   font-family: 'GT America Extended Regular';
   src: url('../fonts/GT-America-Extended-Regular.woff2') format('woff2'),
   url('../fonts/GT-America-Extended-Regular.woff') format('woff');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'GT America Compressed Regular';
+  src: url('../fonts/GT-America-Compressed-Regular.woff2') format('woff2'),
+  url('../fonts/GT-America-Compressed-Regular.woff') format('woff');
   font-display: swap;
 }
 
@@ -66,9 +71,7 @@
 @font-face {
   font-family: 'GT America Mono Regular';
   src: url('../fonts/GT-America-Mono-Regular.woff2') format('woff2'),
-  url('../fonts/GT-America-Mono-Regular.woff') format('woff'),
-  url('../fonts/GT-America-Mono-Regular.otf') format('opentype'),
-  url('../fonts/GT-America-Mono-Regular.ttf') format('truetype');
+  url('../fonts/GT-America-Mono-Regular.woff') format('woff');
   letter-spacing: -4%;
   font-display: swap;
 }
@@ -76,9 +79,7 @@
 @font-face {
   font-family: 'GT America Mono Medium';
   src: url('../fonts/GT-America-Mono-Medium.woff2') format('woff2'),
-  url('../fonts/GT-America-Mono-Medium.woff') format('woff'),
-  url('../fonts/GT-America-Mono-Medium.otf') format('opentype'),
-  url('../fonts/GT-America-Mono-Medium.ttf') format('truetype');
+  url('../fonts/GT-America-Mono-Medium.woff') format('woff');
   letter-spacing: -4%;
   font-display: swap;
 }
@@ -294,4 +295,46 @@
 .fa-youtube::before {
   display: flex;
   justify-content: center;
+}
+
+.truck-configurator {
+  --transition-min-height: min-height var(--duration-medium) var(--duration-large) var(--easing-exit);
+  --transition-opacity: opacity var(--duration-medium) var(--duration-small) var(--easing-exit);
+  --transition-translate: translate var(--duration-medium) var(--easing-exit);
+}
+
+
+.truck-configurator,
+.truck-configurator body,
+.truck-configurator main {
+  height: 100%;
+}
+
+.truck-configurator #configurator {
+  translate: 0 var(--nav-height);
+  height: calc(100% - var(--nav-height));
+  transition: var(--transition-min-height);
+}
+
+.truck-configurator .header-wrapper {
+  position: fixed;
+  transition: var(--transition-min-height), var(--transition-translate);
+}
+
+.truck-configurator .header {
+  box-sizing: border-box;
+  position: static;
+  transition: var(--transition-opacity), var(--transition-translate);
+}
+
+.truck-configurator--detail-page {
+  --nav-height: 0px;
+}
+
+.truck-configurator--detail-page .header-wrapper {
+  translate: 0 -100%;
+}
+
+.truck-configurator--detail-page .header {
+  opacity: 0;
 }

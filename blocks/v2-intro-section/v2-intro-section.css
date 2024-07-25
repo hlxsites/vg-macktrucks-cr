@@ -1,0 +1,114 @@
+.v2-intro-section-container { 
+  --section-background: var(--c-primary-white); 
+}
+
+.section .v2-intro-section-wrapper.v2-intro-section__with-button  {
+  padding: 0;
+}
+
+.section.v2-intro-section-container img {
+  display: block;
+}
+
+.v2-intro-section__text-content {
+  background-color: var(--section-background);
+  padding: 46px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.v2-intro-section__text-content .v2-intro-section__heading {
+  font-size: var(--headline-2-font-size);
+  margin: 0;
+  text-wrap: balance;
+}
+
+.v2-intro-section__text-content p {
+  font-size: var(--body-font-size-s);
+  margin: 0;
+  text-wrap: balance;
+}
+
+.v2-intro-section__with-button .v2-intro-section__text-content {
+  row-gap: 40px;
+  padding: 40px 16px 0;
+}
+
+.v2-intro-section__with-button .v2-intro-section__content {
+  display: flex;
+  flex-direction: column;
+  row-gap: 40px;
+  max-width: 780px;
+}
+
+.v2-intro-section__with-button .button-container {
+  padding: 0 16px 40px;
+  margin: 0;
+}
+
+.v2-intro-section__with-button .button-container a {
+  margin: 0;
+}
+
+@media (min-width: 1200px) {
+  .v2-intro-section-wrapper.full-width {
+    height: 680px;
+    display: flex;
+    flex-flow: column;
+    justify-content: flex-end;
+    position: relative;
+  }
+
+  .v2-intro-section-wrapper.full-width > picture:first-of-type img {
+    object-fit: cover;
+    object-position: top;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 100%;
+    z-index: -1;
+    height: 90%;
+  }
+
+  .v2-intro-section__with-button .v2-intro-section {
+    position: absolute;
+    bottom: 0;
+  }
+
+  .v2-intro-section-wrapper.full-width .v2-intro-section {
+    max-width: var(--wrapper-width);
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .v2-intro-section__with-button .v2-intro-section__text-content {
+    padding: 0;
+    row-gap: 24px;
+  }
+
+  .v2-intro-section-wrapper.full-width .v2-intro-section__text-content {
+    max-width: 512px;
+    padding: 40px;
+    transform: translateX(-50px);
+  }
+  
+  .section.v2-intro-section-container .v2-intro-section__with-button {
+    position: relative;
+    margin: 80px auto 20px;
+  }
+
+  .v2-intro-section__with-button .v2-intro-section__content {
+    background-color: var(--c-primary-white);
+    display: flex;
+    flex-flow: row;
+    column-gap: 64px;
+    row-gap: 24px;
+    align-items: center;
+    padding: 40px 40px 0 0;
+  }
+
+  .v2-intro-section__with-button .button-container {
+    padding: 0;
+  }
+}

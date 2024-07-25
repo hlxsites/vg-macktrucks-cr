@@ -27,15 +27,17 @@ export const clearRepeatedArticles = (articles) => articles.filter((e) => {
   return null;
 });
 
+export const sortArticles = (articles) => articles.sort((a, b) => {
+  a.lastModified = +(a.lastModified);
+  b.lastModified = +(b.lastModified);
+  return b.lastModified - a.lastModified;
+});
+
 export default async function decorate(block) {
   const limit = Number(getLimit(block));
   const allArticles = await getAllArticles();
 
-  const sortedArticles = allArticles.sort((a, b) => {
-    a.date = +(a.date);
-    b.date = +(b.date);
-    return a.date - b.date;
-  });
+  const sortedArticles = sortArticles(allArticles);
   const filteredArticles = clearRepeatedArticles(sortedArticles);
   const selectedArticles = filteredArticles.slice(0, limit);
 

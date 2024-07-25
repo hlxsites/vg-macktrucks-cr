@@ -1,0 +1,78 @@
+/* Footer styles */
+.footer-newsletter .v2-newsletter__message {
+  font-size: var(--body-2-font-size);
+  line-height: 18px;
+}
+
+/* Footer form */
+.v2-forms__validation-message {
+  display: none;
+  font-size: calc(var(--body-2-font-size) - 15%);
+  color: var(--c-error);
+}
+
+.footer-newsletter .pardot-form {
+  display: block;
+  position: relative;
+  max-width: 320px;
+  margin-bottom: 5px;
+}
+
+/* Email input */
+.footer-newsletter .pardot-form input[type="email"] {
+  background-color: var(--c-primary-white);
+  border: none;
+  color: var(--c-secondary-graphite);
+  font-family: var(--ff-body);
+  font-size: 13px;
+  height: 48px;
+  width: 100%;
+  line-height: 13px;
+  padding: 14px 48px 14px 14px;
+}
+
+.footer-newsletter .pardot-form input[type="email"]:focus {
+  outline: 0;
+}
+
+.footer-newsletter .pardot-form input[type="email"]:focus-visible {
+  outline: 2px solid var(--button-secondary-gold-enabled);
+}
+
+.footer-newsletter .pardot-form input[type="email"]::placeholder {
+  color: var(--c-secondary-graphite);
+}
+
+.footer-newsletter .pardot-form input[type="email"].invalid {
+  outline: 1px solid var(--c-invalid);
+}
+
+/* Submit input button */
+.footer-newsletter .pardot-form .submit-button {
+  padding: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 48px;
+  height: 48px;
+  background: var(--button-secondary-gold-enabled) url("../../icons/arrow-right.svg") no-repeat center;
+  background-size: 24px;
+  border: none;
+  margin: unset;
+}
+
+.footer-newsletter .pardot-form .submit-button:hover {
+  background-color: var(--button-secondary-gold-hover);
+}
+
+.footer-newsletter .pardot-form .submit-button:active {
+  background-color: var(--button-secondary-gold-pressed);
+}
+
+.footer-newsletter .pardot-form .submit-button:focus {
+  outline: 0;
+}
+
+.footer-newsletter .pardot-form .submit-button:focus-visible {
+  outline: 2px solid var(--border-focus);
+}

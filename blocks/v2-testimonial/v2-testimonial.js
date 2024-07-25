@@ -1,88 +1,111 @@
 import {
-  isVideoLink, selectVideoLink,
+  isVideoLink,
+  selectVideoLink,
 } from '../../scripts/video-helper.js';
-import { variantsClassesToBEM } from '../../scripts/common.js';
+import {
+  removeEmptyTags,
+  unwrapDivs,
+  variantsClassesToBEM,
+} from '../../scripts/common.js';
 
-const blockClass = 'v2-testimonial';
+const blockName = 'v2-testimonial';
+const variantClasses = ['media-left', 'media-right', 'overlap'];
 
-const handleVideoLinks = (videosLinks) => {
-  const selectedVideo = selectVideoLink(videosLinks);
+const handleVideoLinks = (videoLinks) => {
+  const selectedVideo = selectVideoLink(videoLinks);
 
-  if (!videosLinks.length) {
-    return;
-  }
-
-  videosLinks.forEach((link) => {
+  videoLinks.forEach((link) => {
     if (link !== selectedVideo) {
       link.parentElement.remove();
     }
   });
 
   if (selectedVideo) {
-    selectedVideo.classList.add(`${blockClass}__video-link`);
-  } else {
-    // eslint-disable-next-line no-console
-    console.warn('No proper video link provided for current cookie settings!');
-  }
-};
-
-const createVideoSection = (col, block) => {
-  const videosLinks = [...col.querySelectorAll('a')].filter((link) => isVideoLink(link));
-
-  if (!videosLinks.length) {
+    selectedVideo.classList.add(`${blockName}__video-link`);
     return;
   }
 
-  handleVideoLinks(videosLinks, block);
-  col.classList.add(`${blockClass}__video-section`);
-  col.setAttribute('data-theme', 'gold');
-  col.querySelector('p').classList.add(`${blockClass}__author`);
-  const videoLinkEl = col.querySelector(`.${blockClass}__video-link`);
-  videoLinkEl.parentElement.classList.add(`${blockClass}__video-link-wrapper`);
+  // eslint-disable-next-line no-console
+  console.warn(`[${blockName}]: No proper video link provided for current cookie settings!`);
+};
+
+const createVideoSection = (col) => {
+  const videoLinks = [...col.querySelectorAll('a')].filter(isVideoLink);
+
+  if (videoLinks.length === 0) {
+    return;
+  }
+
+  handleVideoLinks(videoLinks);
+  const videoSection = col.querySelector('p');
+  videoSection.classList.add(`${blockName}__video-section`);
+  videoSection.setAttribute('data-theme', 'gold');
+  videoSection.append(col.querySelector(`.${blockName}__video-link`));
+};
+
+const handleBlockquotes = (block, firstHeading) => {
+  let blockquotes = block.querySelectorAll('blockquote');
+  if (blockquotes.length === 0) {
+    // eslint-disable-next-line no-console
+    console.warn(`[${blockName}]: No blockquote found in the column! Will try to create a blockquote from the text.`);
+
+    const blockquoteCol = block.querySelector(`.${blockName}__blockquote-container`);
+    const paragraphs = blockquoteCol.querySelectorAll('p:only-child, p:not(:last-child)');
+
+    if (paragraphs.length === 0) {
+      // eslint-disable-next-line no-console
+      console.error(`[${blockName}]: No paragraphs found in the column!`);
+      return;
+    }
+
+    const blockquote = document.createElement('blockquote');
+
+    paragraphs.forEach((p) => {
+      blockquote.append(p);
+    });
+
+    firstHeading.insertAdjacentElement('afterend', blockquote);
+  }
+  blockquotes = block.querySelectorAll('blockquote');
+  blockquotes.forEach((bq) => {
+    const em = bq.querySelector('em');
+
+    if (em) {
+      em.outerHTML = em.innerHTML;
+    }
+
+    bq.classList.add(`${blockName}__blockquote`);
+  });
 };
 
 export default async function decorate(block) {
-  const variantClasses = ['media-left', 'media-right', 'overlap'];
-  variantsClassesToBEM(block.classList, variantClasses, blockClass);
-
-  const columns = block.querySelectorAll(':scope > div > div');
+  variantsClassesToBEM(block.classList, variantClasses, blockName);
   block.parentElement.classList.add('full-width');
 
+  const columns = block.querySelectorAll(':scope > div > div');
+  const headings = block.querySelectorAll('h1, h2, h3, h4, h5, h6');
+  const firstHeading = headings[0];
+
   columns.forEach((col) => {
-    col.classList.add(`${blockClass}__column`);
-
-    const headings = [...col.querySelectorAll('h1, h2, h3, h4, h5, h6')];
-    headings.forEach((h) => h.classList.add(`${blockClass}__heading`));
-
-    headings[0]?.classList.add('with-marker');
+    if (col.contains(firstHeading)) {
+      col.parentElement.classList.add(`${blockName}__column`, `${blockName}__column--text`);
+      col.classList.add(`${blockName}__blockquote-container`);
+      headings.forEach((h) => {
+        h.classList.add(`${blockName}__heading`);
+      });
+      firstHeading.classList.add('with-marker');
+    }
 
     const images = [...col.querySelectorAll('img')];
     images.forEach((img) => {
-      img.classList.add(`${blockClass}__image`);
-      col.parentElement.classList.add(`${blockClass}__image-row`);
+      img.classList.add(`${blockName}__image`);
+      img.parentElement.classList.add(`${blockName}__column`, `${blockName}__column--media`);
     });
 
-    const blockquotes = [...col.querySelectorAll('blockquote')];
-    blockquotes.forEach((bq) => {
-      const em = bq.querySelector('em');
-
-      if (em) {
-        em.outerHTML = em.innerHTML;
-      }
-
-      bq.classList.add(`${blockClass}__blockquote`);
-    });
-
-    // recognizing the column with blockquotes
-    blockquotes.forEach((bq) => {
-      bq.closest(`.${blockClass}__column`)?.classList.add(`${blockClass}__blockquote-column`);
-      col.parentElement.classList.add(`${blockClass}__text-row`);
-    });
-
-    // recognizing the column with video
-    const hasVideo = [...col.querySelectorAll('a')].some((link) => isVideoLink(link));
-    if (hasVideo) {
-      createVideoSection(col, block);
-    }
+    createVideoSection(col);
   });
+
+  handleBlockquotes(block, firstHeading);
+  unwrapDivs(block, { ignoreDataAlign: true });
+  removeEmptyTags(block);
 }

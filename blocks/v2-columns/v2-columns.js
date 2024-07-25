@@ -1,9 +1,25 @@
 import { createElement, variantsClassesToBEM } from '../../scripts/common.js';
 
+const blockName = 'v2-columns';
+
+const getLastTextElmts = (block) => {
+  const allTexts = block.querySelectorAll('p');
+  const linksTitle = allTexts[allTexts.length - 1];
+  linksTitle.classList.add('list-title');
+  return linksTitle;
+};
+
 export default async function decorate(block) {
-  const blockName = 'v2-columns';
-  const variantClasses = ['info'];
+  const blockParent = block.parentElement.parentElement;
+
+  const variantClasses = ['with-background-image', 'background-plane', 'icon-list', 'navigation-links', 'inset'];
   variantsClassesToBEM(block.classList, variantClasses, blockName);
+
+  const isBackgroundImageVariant = block.classList.contains(`${blockName}--with-background-image`);
+  const isIconListVariant = block.classList.contains(`${blockName}--icon-list`);
+  const is3LinksVariant = block.classList.contains(`${blockName}--navigation-links`);
+  const isListVariant = isIconListVariant || is3LinksVariant;
+  const hasHeader = blockParent.classList.contains('header-with-mark') || blockParent.classList.contains('header-no-mark');
 
   const rows = [...block.querySelectorAll(':scope > div')];
   const columns = [...block.querySelectorAll(':scope > div > div')];
@@ -16,8 +32,9 @@ export default async function decorate(block) {
     col.classList.add(`${blockName}__column`);
 
     const picture = col.querySelector('picture');
-    const allTextElmts = col.querySelectorAll('p');
+    const allTextElmts = col.querySelectorAll('p, ul, ol');
     const bodyElmts = [];
+    const linkList = createElement('div', { classes: `${blockName}--links` });
 
     if (picture) {
       col.classList.add(`${blockName}__column--with-image`);
@@ -30,30 +47,55 @@ export default async function decorate(block) {
 
       const isButton = [...e.classList].includes('button-container');
       const isPretitle = nextElmt?.tagName.toLowerCase()[0] === 'h';
+      const hasLinkList = isListVariant && (e.tagName.toLowerCase() === 'ul' || e.tagName.toLowerCase() === 'ol');
 
-      if (!isPretitle && !isButton) bodyElmts.push(e);
-    });
-    bodyElmts.forEach((e) => e.classList.add(`${blockName}__body`));
-
-    const buttons = [...col.querySelectorAll('.button-container a')];
-    buttons.forEach((btn) => {
-      btn.classList.add('button', 'button--large', 'button--primary');
-
-      if (btn.parentElement.classList.contains('button-container')) {
-        btn.parentElement.replaceWith(btn);
+      if (hasLinkList) {
+        if (is3LinksVariant) linkList.append(getLastTextElmts(col));
+        linkList.append(e);
+      } else if (!isPretitle && !isButton) {
+        bodyElmts.push(e);
       }
     });
+    bodyElmts.forEach((e) => {
+      if (!e.classList.contains('list-title')) e.classList.add(`${blockName}__body`);
+    });
+
+    block.querySelectorAll(`ul.${blockName}__body li`).forEach((item) => {
+      item.classList.add('li--hyphen');
+    });
+    const buttons = [...col.querySelectorAll('.button-container a')];
+
+    if (isBackgroundImageVariant) {
+      blockParent.classList.add(`${blockName}-container--with-background-image`);
+      const btnSection = createElement('div', { classes: 'button-container' });
+
+      buttons.forEach((btn) => {
+        btn.classList.add('button--large');
+        const btnContainer = btn.closest('.button-container');
+        btnContainer.replaceWith(btn);
+        btnSection.append(btn);
+      });
+      if (!picture) col.append(btnSection);
+      if (isListVariant) {
+        linkList.querySelectorAll('a').forEach((e) => e.classList.add('standalone-link'));
+        col.append(linkList);
+      }
+
+      if (hasHeader) {
+        const defaultContent = blockParent.querySelector('.default-content-wrapper');
+        const header = [...defaultContent.querySelectorAll('h1, h2, h3, h4, h5, h6')];
+        header[0].classList.add(`${blockName}__body-header`, (!blockParent.classList.contains('header-no-mark') && 'with-marker'));
+        bodyElmts[0].insertAdjacentElement('beforebegin', header[0]);
+        defaultContent.remove();
+      }
+    } else {
+      buttons.forEach((btn) => {
+        btn.classList.add('button--large');
+      });
+    }
 
     const headings = [...col.querySelectorAll('h1, h2, h3, h4, h5, h6')];
     headings.forEach((heading) => heading.classList.add(`${blockName}__heading`, 'h2'));
-
-    // icons
-    [...col.querySelectorAll('.icon')].forEach((icon) => {
-      const iconParentEl = icon.parentElement;
-      if (iconParentEl.children.length === 1) {
-        iconParentEl.replaceWith(icon);
-      }
-    });
 
     const prevEl = headings[0]?.previousElementSibling;
     const pretitleText = prevEl && !prevEl.classList.contains('icon') && prevEl.textContent;
@@ -64,35 +106,4 @@ export default async function decorate(block) {
       prevEl.replaceWith(pretitle);
     }
   });
-
-  // logic for info variant
-  if (block.classList.contains(`${blockName}--info`)) {
-    const headings = [...block.querySelectorAll('h3, h4, h5, h6')];
-    const h2List = [...block.querySelectorAll('h2')];
-
-    headings.forEach((h) => {
-      h.classList.add('h5');
-      h.classList.remove('h2');
-    });
-
-    h2List.forEach((h) => {
-      h.classList.add('with-marker', 'h2');
-      h.classList.remove('h1');
-      h.closest(`.${blockName}__column`)?.classList.add(`${blockName}__column--info-main`);
-    });
-
-    // replacing headings (h3, h4, h5, h6) with strong so the block will not break semantic
-    // (example breaking semantic: col 1 -> h5, col 2 -> h2)
-    headings.forEach((heading) => {
-      const newHeadingEl = createElement('strong', { classes: [...heading.classList] });
-      newHeadingEl.innerHTML = heading.innerHTML;
-      heading.replaceWith(newHeadingEl);
-    });
-
-    const buttons = [...block.querySelectorAll('.button-container a')];
-    buttons.forEach((button) => {
-      button.classList.add('standalone-link', `${blockName}__button`);
-      button.classList.remove('button', 'button--primary', 'button--large');
-    });
-  }
 }

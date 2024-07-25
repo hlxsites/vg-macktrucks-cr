@@ -2,7 +2,7 @@
   align-items: center;
   background: transparent;
   border: 0;
-  color: var(--c-primary-black);
+  color: var(--text-color);
   display: flex;
   flex-wrap: nowrap;
   justify-content: space-between;
@@ -25,12 +25,12 @@
   margin: 0;
 }
 
-.v2-accordion__close {
+.v2-accordion__icon {
   transform: rotate(180deg);
   transition: transform var(--duration-small) var(--easing-standard);
 }
 
-.v2-accordion__item-close .v2-accordion__close {
+.v2-accordion__item-close .v2-accordion__icon {
   transform: rotate(0);
 }
 
@@ -42,14 +42,14 @@
   padding: 0;
 }
 
-.v2-accordion__close svg {
+.v2-accordion__icon svg {
   display: flex;
   height: 24px;
   width: 24px;
 }
 
 .v2-accordion__item {
-  border-bottom: 2px solid var(--c-primary-black);
+  border-bottom: 2px solid var(--text-color);
   padding: 24px 0;
 }
 
@@ -60,7 +60,6 @@
 
 /* Styles for nested accordion */
 .v2-accordion__content .v2-accordion__title {
-  color: var(--c-secondary-graphite);
   font-family: var(--ff-subheadings-medium);
   font-size: 22px;
   letter-spacing: 0.22px;
@@ -68,11 +67,12 @@
 }
 
 .v2-accordion__item .v2-accordion__item {
-  border-bottom: 1px solid var(--c-secondary-steel);
+  border-bottom: 1px solid var(--navigation-line-default-color);
 }
 
 .v2-accordion__item .v2-accordion__item:last-child {
-  border-bottom: 0;
+  border-bottom: 0
+
 }
 
 /* END Styles for nested accordion */
