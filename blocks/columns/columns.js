@@ -68,8 +68,10 @@ export default function decorate(block) {
     const parent = block.querySelectorAll(':scope > div > div');
     const textParent = getAllElWithChildren(parent, 'picture', true)[0];
     const pictureParent = getAllElWithChildren(parent, 'picture')[0];
+    const imgLeft = parent[0].querySelector('picture');
     textParent.className = 'columns-promo-text-wrapper';
     if (pictureParent) pictureParent.className = 'columns-promo-picture-wrapper';
+    if (imgLeft) textParent.classList.add('columns-promo-img-left');
   }
 
   videoHandling(block);

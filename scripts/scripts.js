@@ -3,7 +3,6 @@ import {
   buildBlock,
   loadHeader,
   loadFooter,
-  decorateIcons,
   decorateBlocks,
   decorateBlock,
   decorateTemplateAndTheme,
@@ -16,15 +15,17 @@ import {
   toCamelCase,
   toClassName,
   loadScript,
-  getHref,
   createOptimizedPicture,
 } from './lib-franklin.js';
 
 import {
-  createElement,
   addFavIcon,
-  loadDelayed,
+  createElement,
+  decorateIcons,
+  formatStringToArray,
   getPlaceholders,
+  TRUCK_CONFIGURATOR_URLS,
+  loadDelayed,
   slugify,
   variantsClassesToBEM,
 } from './common.js';
@@ -32,6 +33,9 @@ import {
   isVideoLink,
   addVideoShowHandler,
 } from './video-helper.js';
+
+const disableHeader = getMetadata('disable-header').toLowerCase() === 'true';
+const disableFooter = getMetadata('disable-footer').toLowerCase() === 'true';
 
 /**
  * Add the image as background
@@ -84,46 +88,125 @@ export function decorateSections(main) {
     }
   });
 }
+
 /**
- * Decorates paragraphs containing a single link as buttons.
- * @param {Element} element container element
+ * Reparents all child elements of a given element to its parent element.
+ * @param {Element} element - The element whose children need to be reparented.
  */
-export function decorateButtons(element) {
+const reparentChildren = (element) => {
+  const parent = element.parentNode;
+  while (element.firstChild) {
+    parent.insertBefore(element.firstChild, element);
+  }
+  element.remove();
+};
+
+/**
+ * Determines the appropriate button class based on the element hierarchy.
+ * @param {Element} up - The parent element of the anchor tag.
+ * @param {Element} twoUp - The grandparent element of the anchor tag.
+ * @returns {string} - The button class to be applied.
+ */
+const getButtonClass = (up, twoUp) => {
+  const isSingleChild = (element) => element.childNodes.length === 1;
+
+  const upTag = up.tagName;
+  const twoUpTag = twoUp.tagName;
+
+  if (isSingleChild(twoUp)) {
+    if (upTag === 'STRONG' && twoUpTag === 'P') return 'button button--primary';
+    if (upTag === 'STRONG' && twoUpTag === 'LI') return 'button arrowed';
+    if (upTag === 'EM' && twoUpTag === 'P') return 'button button--secondary';
+  }
+
+  if ((upTag === 'STRONG' || upTag === 'EM') && (twoUpTag === 'STRONG' || twoUpTag === 'EM')) {
+    return 'button button--red';
+  }
+
+  return '';
+};
+
+/**
+ * Adds the 'button-container' class to an element if it meets certain criteria.
+ * @param {Element} element - The element to add the class to.
+ */
+const addClassToContainer = (element) => {
+  if (element.childNodes.length === 1 && ['P', 'DIV', 'LI'].includes(element.tagName)) {
+    element.classList.add('button-container');
+  }
+};
+
+/**
+ * Handles the decoration of a single link element.
+ * @param {HTMLAnchorElement} link - The anchor tag to decorate.
+ */
+const handleLinkDecoration = (link) => {
+  const up = link.parentElement;
+  const twoUp = up.parentElement;
+  const threeUp = twoUp.parentElement;
+
+  if (getMetadata('style') === 'redesign-v2') {
+    if (['STRONG', 'EM'].includes(up.tagName)) reparentChildren(up);
+    if (['STRONG', 'EM'].includes(twoUp.tagName)) reparentChildren(twoUp);
+
+    const buttonClass = getButtonClass(up, twoUp);
+    if (buttonClass) link.className = `${buttonClass}`;
+
+    addClassToContainer(up);
+    addClassToContainer(twoUp);
+    addClassToContainer(threeUp);
+  } else {
+    // TODO: remove v1 button decoration logic when v2 is fully used
+    if (up.tagName === 'P' || up.tagName === 'DIV') {
+      link.className = 'button button--primary'; // default
+      up.className = 'button-container';
+    }
+    if (up.tagName === 'STRONG' && twoUp.childNodes.length === 1 && twoUp.tagName === 'P') {
+      link.className = 'button button--primary';
+      twoUp.className = 'button-container';
+    }
+    if (up.tagName === 'EM' && twoUp.childNodes.length === 1 && twoUp.tagName === 'P') {
+      link.className = 'button button--secondary';
+      twoUp.className = 'button-container';
+    }
+    if (up.tagName === 'STRONG' && twoUp.childNodes.length === 1 && twoUp.tagName === 'LI') {
+      const arrow = createElement('span', { classes: ['fa', 'fa-arrow-right'] });
+      link.className = 'button arrowed';
+      twoUp.parentElement.className = 'button-container';
+      link.appendChild(arrow);
+    }
+    if (up.tagName === 'LI' && twoUp.children.length === 1
+      && link.children.length > 0 && link.firstElementChild.tagName === 'STRONG') {
+      const arrow = createElement('span', { classes: ['fa', 'fa-arrow-right'] });
+      link.className = 'button arrowed';
+      twoUp.className = 'button-container';
+      link.appendChild(arrow);
+    }
+  }
+};
+
+/**
+ * Checks if an anchor tag should be decorated as a button.
+ * @param {HTMLAnchorElement} link - The anchor tag to check.
+ * @returns {boolean} - Returns true if the link should be decorated, otherwise false.
+ */
+const shouldDecorateLink = (link) => {
+  link.title = link.title || link.textContent;
+  return link.href !== link.textContent && !link.querySelector('img') && link.parentElement.childNodes.length === 1;
+};
+
+/**
+ * Applies button styling to anchor tags within a specified element,
+ * decorating them as button-like if they meet certain criteria.
+ * @param {Element} element - The container element within which to search and style anchor tags.
+ */
+export const decorateButtons = (element) => {
   element.querySelectorAll('a').forEach((link) => {
-    link.title = link.title || link.textContent;
-    if (link.href !== link.textContent) {
-      const up = link.parentElement;
-      const twoup = link.parentElement.parentElement;
-      if (!link.querySelector('img') && up.childNodes.length === 1) {
-        if (up.tagName === 'P' || up.tagName === 'DIV') {
-          link.className = 'button button--primary'; // default
-          up.className = 'button-container';
-        }
-        if (up.tagName === 'STRONG' && twoup.childNodes.length === 1 && twoup.tagName === 'P') {
-          link.className = 'button button--primary';
-          twoup.className = 'button-container';
-        }
-        if (up.tagName === 'EM' && twoup.childNodes.length === 1 && twoup.tagName === 'P') {
-          link.className = 'button button--secondary';
-          twoup.className = 'button-container';
-        }
-        if (up.tagName === 'STRONG' && twoup.childNodes.length === 1 && twoup.tagName === 'LI') {
-          const arrow = createElement('span', { classes: ['fa', 'fa-arrow-right'] });
-          link.className = 'button arrowed';
-          twoup.parentElement.className = 'button-container';
-          link.appendChild(arrow);
-        }
-        if (up.tagName === 'LI' && twoup.children.length === 1
-          && link.children.length > 0 && link.firstElementChild.tagName === 'STRONG') {
-          const arrow = createElement('span', { classes: ['fa', 'fa-arrow-right'] });
-          link.className = 'button arrowed';
-          twoup.className = 'button-container';
-          link.appendChild(arrow);
-        }
-      }
+    if (shouldDecorateLink(link)) {
+      handleLinkDecoration(link);
     }
   });
-}
+};
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
@@ -152,56 +235,17 @@ export function findAndCreateImageLink(node) {
     }
   });
 }
-/**
- * Returns a picture element with webp and fallbacks / allow multiple src paths for every breakpoint
- * @param {string} src Default image URL (if no src is passed to breakpoints object)
- * @param {boolean} eager load image eager
- * @param {Array} breakpoints breakpoints and corresponding params (eg. src, width, media)
- */
-export function createCustomOptimizedPicture(src, alt = '', eager = false, breakpoints = [{ media: '(min-width: 400px)', width: '2000' }, { width: '750' }]) {
-  const url = new URL(src, getHref());
-  const picture = document.createElement('picture');
-  let { pathname } = url;
-  const ext = pathname.substring(pathname.lastIndexOf('.') + 1);
-
-  breakpoints.forEach((br) => {
-    // custom src path in breakpoint
-    if (br.src) {
-      const customUrl = new URL(br.src, getHref());
-      pathname = customUrl.pathname;
-    }
-
-    const source = document.createElement('source');
-    if (br.media) source.setAttribute('media', br.media);
-    source.setAttribute('type', 'image/webp');
-    source.setAttribute('srcset', `${pathname}?width=${br.width}&format=webply&optimize=medium`);
-    picture.appendChild(source);
-  });
-
-  // fallback
-  breakpoints.forEach((br, j) => {
-    if (j < breakpoints.length - 1) {
-      const source = document.createElement('source');
-      if (br.media) source.setAttribute('media', br.media);
-      source.setAttribute('srcset', `${pathname}?width=${br.width}&format=${ext}&optimize=medium`);
-      picture.appendChild(source);
-    } else {
-      const image = document.createElement('img');
-      image.setAttribute('loading', eager ? 'eager' : 'lazy');
-      image.setAttribute('alt', alt);
-      picture.appendChild(image);
-      image.setAttribute('src', `${pathname}?width=${br.width}&format=${ext}&optimize=medium`);
-    }
-  });
-
-  return picture;
-}
 
 /**
  * Builds hero block and prepends to main in a new section.
  * @param {Element} main The container element
  */
 function buildHeroBlock(main) {
+  // switching off hero autoblock for redesign
+  if (getMetadata('style') === 'redesign-v2') {
+    return;
+  }
+
   const header = main.querySelector('h1');
   const picture = main.querySelector('picture');
   const heroBlock = main.querySelector('.hero, .v2-hero');
@@ -227,6 +271,25 @@ function buildSubNavigation(main, head) {
 }
 
 /**
+ * Builds and inserts a v2-sub-navigation block as the first child of the element preceding
+ * the main element if the v2-sub-navigation meta tag is present and its content starts with a '/'.
+ *
+ * @param {HTMLElement} main - The main element, used to find the preceding sibling element where
+ * the block will be inserted.
+ * @param {HTMLElement} head - The head element where the meta tag is located.
+ */
+const buildV2SubNavigation = (main, head) => {
+  const v2SubNavigation = head.querySelector('meta[name="v2-sub-navigation"]');
+  if (v2SubNavigation && v2SubNavigation.content.startsWith('/')) {
+    const block = buildBlock('v2-sub-navigation', []);
+    const v2SubNavigationContainer = createElement('div');
+    v2SubNavigationContainer.append(block);
+    decorateBlock(v2SubNavigationContainer);
+    main.prepend(v2SubNavigationContainer);
+  }
+};
+
+/**
  * Builds all synthetic blocks in a container element.
  * @param {Element} main The container element
  */
@@ -235,6 +298,7 @@ function buildAutoBlocks(main, head) {
     buildHeroBlock(main);
     if (head) {
       buildSubNavigation(main, head);
+      buildV2SubNavigation(main, head);
     }
   } catch (error) {
     // eslint-disable-next-line no-console
@@ -277,7 +341,16 @@ export function decorateLinks(block) {
 }
 
 function decorateSectionBackgrounds(main) {
-  const variantClasses = ['black-background', 'gray-background', 'background-with-dots'];
+  const variantClasses = [
+    'light-gray-background',
+    'primary-gray-background',
+    'gray-background',
+    'graphite-background',
+    'black-background',
+    'background-with-dots',
+    'no-gap',
+    'no-vertical-padding',
+  ];
 
   main.querySelectorAll(':scope > .section').forEach((section) => {
     // transform background color variants into BEM classnames
@@ -323,13 +396,10 @@ const createInpageNavigation = (main) => {
 
   // Sort the object by order
   const sortedObject = tabItemsObj.slice().sort((obj1, obj2) => {
-    if (!obj1.order) {
-      return 1; // Move 'a' to the end
-    }
-    if (!obj2.order) {
-      return -1; // Move 'b' to the end
-    }
-    return obj1.order - obj2.order;
+    const order1 = obj1.order ?? Infinity; // Fallback to a large number if 'order' is not present
+    const order2 = obj2.order ?? Infinity;
+
+    return order1 - order2;
   });
 
   // From the array of objects create the DOM
@@ -369,52 +439,20 @@ function buildInpageNavigationBlock(main, classname) {
   }
 }
 
-function createTabbedSection(tabItems, classname) {
-  const tabSection = createElement('div', { classes: 'section' });
-  tabSection.dataset.sectionStatus = 'initialized';
-  const tabBlock = buildBlock(classname, [tabItems]);
-  tabSection.append(tabBlock);
-  return tabSection;
-}
-
-function buildTabbedBlock(main, classname) {
-  let nextElement;
-  const tabItems = [];
-  const mainChildren = [...main.querySelectorAll(':scope > div')];
-
-  mainChildren.forEach((section, i2) => {
-    const isCarousel = section.dataset.carousel;
-    if (!isCarousel) return;
-
-    nextElement = mainChildren[i2 + 1];
-    const tabContent = createElement('div', { classes: `${classname}__item` });
-    tabContent.dataset.carousel = section.dataset.carousel;
-    tabContent.innerHTML = section.innerHTML;
-    const image = tabContent.querySelector('p > picture');
-
-    tabContent.prepend(image);
-
-    tabItems.push(tabContent);
-    section.remove();
-  });
-
-  if (tabItems.length > 0) {
-    const tabbedCarouselSection = createTabbedSection(tabItems, classname);
-    if (nextElement) { // if we saved a position push the carousel in that position if not
-      main.insertBefore(tabbedCarouselSection, nextElement);
-    } else {
-      main.append(tabbedCarouselSection);
-    }
-    decorateBlock(tabbedCarouselSection.querySelector(`.${classname}`));
-  }
-}
-
 /**
  * Decorates the main element.
  * @param {Element} main The main element
  */
 // eslint-disable-next-line import/prefer-default-export
 export function decorateMain(main, head) {
+  if (head) {
+    const pageStyle = head.querySelector('[name="style"]')?.content;
+    if (pageStyle) {
+      pageStyle.split(',')
+        .map((style) => toClassName(style.trim()))
+        .forEach((style) => main.classList.add(style));
+    }
+  }
   // hopefully forward compatible button decoration
   decorateButtons(main);
   decorateIcons(main);
@@ -428,8 +466,6 @@ export function decorateMain(main, head) {
   buildTruckLineupBlock(main, 'v2-truck-lineup');
   // Inpage navigation
   buildInpageNavigationBlock(main, 'v2-inpage-navigation');
-  // V2 tabbed carousel
-  buildTabbedBlock(main, 'v2-tabbed-carousel');
 }
 
 async function loadTemplate(doc, templateName) {
@@ -493,8 +529,12 @@ async function loadLazy(doc) {
   const header = doc.querySelector('header');
   const subnav = header.querySelector('.block.sub-nav');
 
-  loadHeader(header);
-  loadFooter(doc.querySelector('footer'));
+  if (!disableHeader) {
+    loadHeader(header);
+  }
+  if (!disableFooter) {
+    loadFooter(doc.querySelector('footer'));
+  }
 
   if (subnav) {
     loadBlock(subnav);
@@ -722,7 +762,56 @@ function buildTruckLineupBlock(main, classname) {
   }
 }
 
-/* REDESING CLASS CHECK */
-if (getMetadata('style') === 'redesign-v2') {
-  document.querySelector('html').classList.add('redesign-v2');
+const moveClassToHtmlEl = (className, elementSelector = 'main') => {
+  if (document.querySelector(elementSelector).classList.contains(className)) {
+    document.documentElement.classList.add(className);
+    document.querySelector(elementSelector).classList.remove(className);
+  }
+};
+
+moveClassToHtmlEl('redesign-v2');
+moveClassToHtmlEl('truck-configurator');
+
+if (document.documentElement.classList.contains('truck-configurator')) {
+  const container = createElement('div', { props: { id: 'configurator' } });
+  const main = document.querySelector('main');
+  main.innerHTML = '';
+  main.append(container);
+
+  const jsUrls = formatStringToArray(TRUCK_CONFIGURATOR_URLS.JS);
+  const cssUrls = formatStringToArray(TRUCK_CONFIGURATOR_URLS.CSS);
+
+  jsUrls.forEach((url) => {
+    loadScript(url, { type: 'text/javascript', charset: 'UTF-8', defer: 'defer' });
+  });
+
+  cssUrls.forEach((url) => {
+    loadCSS(url);
+  });
+
+  window.addEventListener('reactRouterChange', (e) => {
+    const newLocation = e.detail;
+
+    // eslint-disable-next-line no-console
+    console.info('[truck-configurator]: React Router location changed:', newLocation);
+
+    if (newLocation.pathname && newLocation.pathname !== '/' && disableHeader) {
+      document.documentElement.classList.add('truck-configurator--detail-page');
+    }
+    if (newLocation.pathname && (newLocation.pathname === '/' || newLocation.pathname === '')) {
+      document.documentElement.classList.remove('truck-configurator--detail-page');
+    }
+  });
+}
+
+if (getMetadata('truck-configurator-page')) {
+  const page = getMetadata('truck-configurator-page').toLowerCase();
+  const currentHash = window.location.hash;
+
+  if (disableHeader) {
+    document.documentElement.classList.add('truck-configurator--detail-page');
+  }
+  if (!currentHash.startsWith(`#/${page}`)) {
+    document.location.hash = `#/${page}`;
+  }
 }

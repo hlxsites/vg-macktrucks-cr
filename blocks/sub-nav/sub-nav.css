@@ -225,6 +225,10 @@
   width: 100%;
 }
 
+[data-form-type="Subscribe-magazine"] {
+  scroll-margin-top: calc(var(--nav-height) + var(--sub-nav-height-xl));
+}
+
 header:has(nav[aria-expanded="true"]) .sub-nav-container {
   position: relative;
   z-index: -1;

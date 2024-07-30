@@ -2,6 +2,10 @@
   padding: 0;
 }
 
+.vin-number__refresh-date-wrapper {
+  text-align: center;
+}
+
 .vin-number__form {
   display: flex;
   gap: 8px;
@@ -12,13 +16,10 @@
   position: relative;
 }
 
-.redesign-v2 .vin-number__form .vin-number__submit {
-  padding-top: 11px;
-  padding-bottom: 11px;
-}
-
 .vin-number__input {
   margin: 0;
+  padding: 0.625rem 0.6rem;
+  width: 100%;
   max-width: 100%;
   font-size: var(--body-font-size-xs);
 }
@@ -49,7 +50,7 @@
 }
 
 .vin-number__recalls-wrapper {
-  margin-top: 40px;
+  margin-top: 20px;
 }
 
 .vin-number__recalls-heading-wrapper {
@@ -91,7 +92,8 @@
   margin-bottom: 0;
 }
 
-.vin-number__detail-item {
+.vin-number__detail-item,
+.vin-number__recalls-md-row {
   display: flex;
   gap: 16px;
 }
@@ -105,7 +107,8 @@
   margin-top: 10px;
 }
 
-.vin-number__detail-title {
+.vin-number__detail-title,
+.vin-number__recalls-md-title {
   margin-bottom: 0;
   margin-top: 0;
 }
@@ -117,6 +120,12 @@
 
 .vin-number__recall-complete {
   color: #78B833;
+}
+
+.vin-number__recalls-make-wrapper {
+  display: flex;
+  gap: 16px;
+  flex-direction: column;
 }
 
 @media (min-width: 744px) {

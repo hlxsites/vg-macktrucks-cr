@@ -48,10 +48,6 @@
     padding-top: 23px;
   }
 
-  .search-input-wrapper {
-    display: none !important;
-  }
-
   .studio-search-widget {
     padding: 0;
   }
@@ -407,7 +403,6 @@
   }
 
   .sf-header-searchstudio-js .sf-form .form-control-suggest input {
-    background: 0 0 !important;
     padding-right: 70px !important;
   }
 }

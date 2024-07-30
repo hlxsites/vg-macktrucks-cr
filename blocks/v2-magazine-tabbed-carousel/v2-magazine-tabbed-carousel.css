@@ -1,0 +1,274 @@
+.redesign-v2 .section.v2-magazine-tabbed-carousel-container {
+  color: var(--text-color);
+  padding-top: 0;
+}
+
+.redesign-v2 .section .v2-magazine-tabbed-carousel-wrapper {
+  padding: unset;
+  margin: unset;
+}
+
+.v2-magazine-tabbed-carousel__container {
+  position: relative;
+}
+
+.v2-magazine-tabbed-carousel__items {
+  display: flex;
+  overflow: scroll hidden;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.v2-magazine-tabbed-carousel__items::-webkit-scrollbar {
+  display: none;
+}
+
+.v2-magazine-tabbed-carousel__item {
+  flex: none;
+  scroll-snap-align: center;
+  width: 100%;
+}
+
+.v2-magazine-tabbed-carousel__item img,
+.v2-magazine-tabbed-carousel__video {
+  display: block;
+  object-fit: cover;
+  width: 100%;
+  aspect-ratio: 1;
+  max-height: 80vh;
+  height: 100%;
+}
+
+.v2-magazine-tabbed-carousel__figure {
+  position: relative;
+  margin: 0;
+  height: 100%;
+}
+
+.v2-magazine-tabbed-carousel__figure figcaption {
+  position: absolute;
+  top: 10vw;
+  left: 0;
+  margin-left: 16px;
+  text-align: left;
+}
+
+.v2-magazine-tabbed-carousel__figure figcaption a {
+  --text-color: var(--c-primary-white);
+  --color-icon: var(--text-color);
+
+  color: var(--text-color);
+  font-family: var(--ff-headline-compressed);
+  font-size: 48px;
+  line-height: 90%;
+  text-transform: uppercase;
+  text-wrap: balance;
+  text-decoration: none;
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+}
+
+.v2-magazine-tabbed-carousel__figure figcaption svg {
+  margin: 5px 10px;
+  height: 24px;
+  width: 24px;
+}
+
+.v2-magazine-tabbed-carousel__navigation {
+  display: flex;
+  overflow: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  scroll-snap-align: center;
+  gap: 16px;
+  padding: 0 16px;
+  max-width: var(--wrapper-width);
+}
+
+.v2-magazine-tabbed-carousel__navigation::-webkit-scrollbar {
+  display: none;
+}
+
+.v2-magazine-tabbed-carousel__navigation-item {
+  --text-color: var(--text-subtle);
+
+  color: var(--text-color);
+  border: none;
+  text-align: left;
+  border-top: 8px solid;
+  border-color: var(--text-color);
+  min-width: calc(var(--wrapper-width) / 4);
+  height: 210px;
+  display: flex;
+  flex-flow: column;
+  gap: 12px;
+  padding: 12px 10px 10px;
+  overflow: hidden;
+  scroll-snap-align: center;
+  background-color: var(--background-color);
+  transition:
+    color,
+    border-color;
+  transition-duration: var(--duration-large);
+  transition-timing-function: var(--easing-standard);
+}
+
+.v2-magazine-tabbed-carousel__navigation-item.v2-magazine-tabbed-carousel__navigation-item--active {
+  --text-color: var(--c-primary-black);
+}
+
+.v2-magazine-tabbed-carousel__navigation-item .pretitle {
+  padding: 0;
+  margin: 0;
+}
+
+.v2-magazine-tabbed-carousel__navigation-item .title {
+  margin: 0;
+  font-family: var(--ff-headline-medium);
+  font-size: var(--headline-4-font-size);
+  line-height: 115%;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.v2-magazine-tabbed-carousel__navigation-item:not(.v2-magazine-tabbed-carousel__navigation-item--active):hover {
+  --text-color: var(--c-primary-black);
+
+  transition:
+    color,
+    border-color;
+  transition-duration: var(--duration-large);
+  transition-timing-function: var(--easing-standard);
+  cursor: pointer;
+}
+
+.v2-magazine-tabbed-carousel__navigation-item.v2-magazine-tabbed-carousel__navigation-item--active:hover {
+  cursor: default;
+}
+
+.v2-magazine-tabbed-carousel .switch {
+  position: absolute;
+  bottom: 210px;
+  left: 0;
+  display: flex;
+  align-items: center;
+  height: 32px;
+  font-family: var(--ff-body);
+  font-size: var(--body-font-size-xs);
+  background-color: var(--background-color);
+  margin-left: 16px;
+  padding: 4px 4px 4px 16px;
+  gap: 16px;
+}
+
+.v2-magazine-tabbed-carousel .switch-label {
+  padding: 4px 0 0;
+}
+
+.v2-magazine-tabbed-carousel .switch-buttons {
+  position: relative;
+  background-color: var(--background-color);
+}
+
+.v2-magazine-tabbed-carousel .switch-buttons button {
+  color: var(--text-color);
+  font-size: var(--body-font-size-xs);
+  position: relative;
+  background-color: transparent;
+  border: none;
+  z-index: 1;
+  padding: 5px 14px 4px;
+  margin: 0;
+}
+
+.v2-magazine-tabbed-carousel .switch-buttons button:first-of-type {
+  margin-right: 4px;
+}
+
+.v2-magazine-tabbed-carousel .v2-magazine-tabbed-carousel__figure a:focus,
+.v2-magazine-tabbed-carousel .v2-magazine-tabbed-carousel__navigation-item:focus,
+.v2-magazine-tabbed-carousel .switch-buttons button:focus {
+  outline: 0;
+}
+
+.v2-magazine-tabbed-carousel .v2-magazine-tabbed-carousel__figure a:focus-visible,
+.v2-magazine-tabbed-carousel .v2-magazine-tabbed-carousel__navigation-item:focus-visible,
+.v2-magazine-tabbed-carousel .switch-buttons button:focus-visible {
+  outline: 3px solid var(--navigation-line-active-color);
+  outline-offset: -3px;
+}
+
+.v2-magazine-tabbed-carousel .switch-buttons .switch-slider {
+  position: absolute;
+  top: 2px;
+  left: 0;
+  height: 24px;
+  width: 48px;
+  background-color: var(--c-secondary-silver);
+  border-radius: 2px;
+  transition: left var(--duration-small) var(--easing-standard);
+}
+
+.v2-magazine-tabbed-carousel .v2-video__playback-button {
+  --playback-button-size: 48px;
+
+  background-color: var(--button-primary-bg);
+}
+
+.v2-magazine-tabbed-carousel .v2-video__playback-button:hover {
+  background-color: var(--button-primary-bg-hover);
+}
+
+@media (min-width: 744px) {
+  .v2-magazine-tabbed-carousel__figure figcaption svg {
+    margin: 5px 10px;
+    height: 48px;
+    width: 48px;
+  }
+
+  .v2-magazine-tabbed-carousel__figure figcaption a {
+    font-size: 96px;
+    width: 50%;
+  }
+
+  .v2-magazine-tabbed-carousel__item img,
+  .v2-magazine-tabbed-carousel__video {
+    aspect-ratio: 3 / 2;
+    height: unset;
+  }
+}
+
+@media (min-width: 1200px) {
+  .v2-magazine-tabbed-carousel__figure figcaption {
+    margin-top: 75px;
+    margin-left: calc((100vw - var(--wrapper-width)) / 2);
+    top: 0;
+    left: 0;
+  }
+
+  .v2-magazine-tabbed-carousel__item img,
+  .v2-magazine-tabbed-carousel__video {
+    aspect-ratio: 12 / 5;
+  }
+
+  .v2-magazine-tabbed-carousel__navigation {
+    overflow: unset;
+    margin: 0 auto;
+    padding: 0;
+  }
+
+  .v2-magazine-tabbed-carousel .switch {
+    margin-left: calc((100vw - var(--wrapper-width)) / 2);
+    opacity: 0.5;
+  }
+
+  .v2-magazine-tabbed-carousel .switch:hover {
+    opacity: 1;
+  }
+}

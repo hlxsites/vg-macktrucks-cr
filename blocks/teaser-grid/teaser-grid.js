@@ -9,7 +9,7 @@ export default function decorate(block) {
     const teaserGridItem = createElement('li', { classes: ['teaser-grid-item', `teaser-grid-item-${idx + 1}`] });
 
     const image = e.querySelector('picture').innerHTML;
-    const linkUrl = e.querySelector('a').innerText;
+    const linkUrl = e.querySelector('a').getAttribute('href');
     const texts = e.querySelectorAll('li');
 
     const buttonText = texts[0].innerText;

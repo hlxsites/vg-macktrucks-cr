@@ -182,6 +182,12 @@ hr.column-underline {
     order: unset;
   }
 
+  .columns-promo-text-wrapper.columns-promo-img-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+
   .columns.promo.underlined-text .columns-promo-picture-wrapper {
     display: flex;
     align-items: center;

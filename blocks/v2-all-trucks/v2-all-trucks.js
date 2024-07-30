@@ -4,9 +4,6 @@ import { createElement, getTextLabel } from '../../scripts/common.js';
 const blockName = 'v2-all-trucks';
 
 export default function decorate(block) {
-  const pageDescriptionHeading = document.querySelector(`.${blockName}-container > div > h1`);
-  pageDescriptionHeading.classList.add('with-marker', `${blockName}__title`);
-
   const truckElement = block.querySelectorAll(`.${blockName} > div`);
   truckElement.forEach((div) => {
     div.classList.add(`${blockName}__truck`);
@@ -33,12 +30,7 @@ export default function decorate(block) {
   trucksWrapper.classList.add('full-width');
 
   const trucks = document.querySelectorAll(`.${blockName}__truck`);
-  const setSecondaryButton = document.querySelectorAll(`.${blockName}__truck .${blockName}__truck-info .button-container:last-of-type a`);
   const segmentList = document.querySelectorAll(`.${blockName}__truck > div > ul`);
-  setSecondaryButton.forEach((button) => {
-    button.classList.remove('button--primary');
-    button.classList.add('button--secondary');
-  });
 
   // Add truck name to truck element class list
   getTruckName();

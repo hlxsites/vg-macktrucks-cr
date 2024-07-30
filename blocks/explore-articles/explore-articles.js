@@ -34,7 +34,7 @@ const getOptions = (list, placeholder) => {
 };
 
 const buildSelect = (type, array, text) => {
-  const select = createElement('select', ['input-field', `${type}-input`], { id: type, name: type });
+  const select = createElement('select', { classes: ['input-field', `${type}-input`], props: { id: type, name: type } });
   const options = getOptions(array, text);
   options.forEach((option) => {
     select.append(option);
@@ -201,7 +201,7 @@ const buildFieldset = () => {
   const form = createElement('form', ['form', 'filter-list'], { method: 'get', name: 'article-fieldset' });
   form.addEventListener('change', handleForm);
 
-  const fieldset = createElement('fieldset', ['fieldset', 'filter-list'], { method: 'get', name: 'article-fieldset', id: 'explore-magazine-fieldset' });
+  const fieldset = createElement('fieldset', { classes: ['fieldset', 'filter-list'], props: { method: 'get', name: 'article-fieldset', id: 'explore-magazine-fieldset' } });
 
   const categoryField = createElement('div', { classes: 'category-field' });
   const trucksField = createElement('div', { classes: 'trucks-field' });

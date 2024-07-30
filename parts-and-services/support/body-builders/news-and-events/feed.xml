@@ -2,7 +2,7 @@
 <feed xmlns="http://www.w3.org/2005/Atom">
     <id>https://www.macktrucks.com/parts-and-services/support/body-builders/news-and-events/</id>
     <title>Mack Body Builder News</title>
-    <updated>2023-08-10T15:38:18.000Z</updated>
+    <updated>2024-05-06T14:01:26.000Z</updated>
     <generator>AEM Project Franklin News feed generator (GitHub action)</generator>
     <link rel="alternate" href="https://www.macktrucks.com/parts-and-services/support/body-builders/news-and-events/"/>
     <subtitle>Get the latest news from Mack® Trucks Body Builder Portal.</subtitle>
@@ -10,9 +10,9 @@
         <title type="html"><![CDATA[Mack Medium Duty PTO Options]]></title>
         <id>https://www.macktrucks.com/parts-and-services/support/body-builders/news-and-events/mack-medium-duty-pto-options</id>
         <link href="https://www.macktrucks.com/parts-and-services/support/body-builders/news-and-events/mack-medium-duty-pto-options"/>
-        <updated>2023-07-17T19:06:09.000Z</updated>
+        <updated>2024-05-02T20:24:50.000Z</updated>
         <content type="html"><![CDATA[Get the full Mack Medium Duty (MMD) Chassis PTO installation guide to help set up the correct applications for your vehicle.]]></content>
-        <published>2023-07-17T19:06:09.000Z</published>
+        <published>2024-05-02T20:24:50.000Z</published>
     </entry>
     <entry>
         <title type="html"><![CDATA[Mack Medium Duty-Trailer Wiring with Brake Controller]]></title>
@@ -63,14 +63,6 @@
         <published>2023-07-05T14:35:43.000Z</published>
     </entry>
     <entry>
-        <title type="html"><![CDATA[VECU5 NEW MACK MODULE FOR 2022 MODEL YEAR]]></title>
-        <id>https://www.macktrucks.com/parts-and-services/support/body-builders/news-and-events/vecu5-new-mack-module-for-2022-model-year</id>
-        <link href="https://www.macktrucks.com/parts-and-services/support/body-builders/news-and-events/vecu5-new-mack-module-for-2022-model-year"/>
-        <updated>2023-07-03T13:35:53.000Z</updated>
-        <content type="html"><![CDATA[A new vehicle control unit (VECU5) has been developed to support feature growth in the coming years. All DTC]]></content>
-        <published>2023-07-03T13:35:53.000Z</published>
-    </entry>
-    <entry>
         <title type="html"><![CDATA[mDrive Auto Neutral Introduced by Mack]]></title>
         <id>https://www.macktrucks.com/parts-and-services/support/body-builders/news-and-events/mdrive-auto-neutral-introduced-by-mack</id>
         <link href="https://www.macktrucks.com/parts-and-services/support/body-builders/news-and-events/mdrive-auto-neutral-introduced-by-mack"/>
@@ -87,14 +79,6 @@
         <published>2023-07-03T13:35:51.000Z</published>
     </entry>
     <entry>
-        <title type="html"><![CDATA[Mack Introduces Rolling Start F-Series mDrive transmissions]]></title>
-        <id>https://www.macktrucks.com/parts-and-services/support/body-builders/news-and-events/mack-introduces-rolling-start</id>
-        <link href="https://www.macktrucks.com/parts-and-services/support/body-builders/news-and-events/mack-introduces-rolling-start"/>
-        <updated>2023-07-03T13:35:51.000Z</updated>
-        <content type="html"><![CDATA[This new feature is desirable in Paving applications and allows the operator to go directly from Neutral to Drive without a service brake application.]]></content>
-        <published>2023-07-03T13:35:51.000Z</published>
-    </entry>
-    <entry>
         <title type="html"><![CDATA[Customer Adaptation Center]]></title>
         <id>https://www.macktrucks.com/parts-and-services/support/body-builders/news-and-events/customer-adaptation-center</id>
         <link href="https://www.macktrucks.com/parts-and-services/support/body-builders/news-and-events/customer-adaptation-center"/>
@@ -106,16 +90,24 @@
         <title type="html"><![CDATA[New GR/Granite Improvements]]></title>
         <id>https://www.macktrucks.com/parts-and-services/support/body-builders/news-and-events/new-gr-granite-improvements</id>
         <link href="https://www.macktrucks.com/parts-and-services/support/body-builders/news-and-events/new-gr-granite-improvements"/>
-        <updated>2023-08-10T15:38:18.000Z</updated>
+        <updated>2024-05-06T14:01:26.000Z</updated>
         <content type="html"><![CDATA[Find new improvements for the GR/Granite Mack Trucks for MPH signal, revised September, 2018.]]></content>
-        <published>2023-08-10T15:38:18.000Z</published>
+        <published>2024-05-06T14:01:26.000Z</published>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[New Buffered Road Speed Signal at X156 Connector]]></title>
+        <id>https://www.macktrucks.com/parts-and-services/support/body-builders/news-and-events/new-buffered-road-speed-signal-at-x156-connector</id>
+        <link href="https://www.macktrucks.com/parts-and-services/support/body-builders/news-and-events/new-buffered-road-speed-signal-at-x156-connector"/>
+        <updated>2024-02-26T12:44:46.000Z</updated>
+        <content type="html"><![CDATA[Road speed signal for devices used in spreader applications. Conventional Cabs for Mack Trucks built starting week 37 2023 and after.]]></content>
+        <published>2024-02-26T12:44:46.000Z</published>
     </entry>
     <entry>
         <title type="html"><![CDATA[Updates to Pump Speed Calculator Tool]]></title>
         <id>https://www.macktrucks.com/parts-and-services/support/body-builders/news-and-events/updates-to-pump-speed-calculator-tool</id>
         <link href="https://www.macktrucks.com/parts-and-services/support/body-builders/news-and-events/updates-to-pump-speed-calculator-tool"/>
-        <updated>2023-08-08T20:16:09.000Z</updated>
+        <updated>2024-02-26T12:43:47.000Z</updated>
         <content type="html"><![CDATA[Pump Speed calculator has some added features that would help with Split Shaft Programming and new pump offerings.]]></content>
-        <published>2023-08-08T20:16:09.000Z</published>
+        <published>2024-02-26T12:43:47.000Z</published>
     </entry>
 </feed>

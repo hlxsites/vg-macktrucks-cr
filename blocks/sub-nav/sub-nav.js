@@ -1,7 +1,11 @@
 import {
-  decorateButtons, getAllElWithChildren, loadAsBlock,
+  decorateButtons, getAllElWithChildren,
 } from '../../scripts/scripts.js';
-import { createElement, getTextLabel } from '../../scripts/common.js';
+import {
+  createElement,
+  getTextLabel,
+  MAGAZINE_CONFIGS,
+} from '../../scripts/common.js';
 
 const MQ = window.matchMedia('(min-width: 1140px)');
 const subscribeText = getTextLabel('SUBSCRIBE TO BULLDOG');
@@ -94,8 +98,6 @@ async function buildMagazineSubNav(block, ref) {
   const text = await resp.text();
   const fragment = document.createRange().createContextualFragment(text);
   const mainTitleImgWrapper = fragment.querySelector('div');
-  const modalId = 'id-modal-subscribe-magazine';
-  const modalBlockEl = fragment.querySelector(`.${modalId}`);
   // bar main section
   const mainTitleImg = mainTitleImgWrapper.querySelector('picture');
   const mainTitleLink = mainTitleImgWrapper.querySelector('a');
@@ -134,6 +136,7 @@ async function buildMagazineSubNav(block, ref) {
   listSubscribeBtnContainer.appendChild(listSubscribeBtn);
   listWrapper.appendChild(closeBtn);
   listContainer.append(listWrapper, listSubscribeBtnContainer);
+  mainList.nextElementSibling.remove();
 
   // adding it to the block
   mainTitleLink.textContent = '';
@@ -146,25 +149,17 @@ async function buildMagazineSubNav(block, ref) {
   subNavContainer.append(listIcon, mainSubNav, subscribeBtnContainer, listContainer);
   block.appendChild(subNavContainer);
 
-  if (modalBlockEl) {
-    await loadAsBlock('modal', modalBlockEl.innerHTML, { variantsClasses: [...modalBlockEl.classList] });
-    modalBlockEl.remove();
-  }
-
-  const showBulldogSubscribeForm = async () => {
-    if (modalBlockEl) {
-      const modalEvent = new CustomEvent('open-modal', {
-        detail: {
-          modalId,
-        },
-      });
-
-      document.dispatchEvent(modalEvent, { bubbles: true });
-    }
-  };
-
   const allSubscribeButtons = document.querySelectorAll('.magazine-subscribe-button');
-  allSubscribeButtons.forEach((btn) => btn.addEventListener('click', showBulldogSubscribeForm));
+  allSubscribeButtons.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const container = document.querySelector('[data-form-type="Subscribe-magazine"]');
+      if (container) {
+        container.scrollIntoView({ block: 'start', behavior: 'smooth' });
+      } else {
+        window.location.href = MAGAZINE_CONFIGS.HREF;
+      }
+    });
+  });
 
   window.onresize = () => {
     const isDesktop = MQ.matches;

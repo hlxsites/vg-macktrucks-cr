@@ -13,6 +13,24 @@ indices:
       - '/fragments/**'
       - '/**/sub-nav'
       - '/block-library/**'
+      - '/truck-configurator/'
+      - '/truck-configurator/**'
+      - '/trucks/anthem/configurator/'
+      - '/trucks/granite-series/configurator/'
+      - '/trucks/lr-series/configurator/'
+      - '/trucks/lr-electric/configurator/'
+      - '/trucks/md/configurator/'
+      - '/trucks/md-electric/configurator/'
+      - '/trucks/pinnacle-series/configurator/'
+      - '/trucks/terrapro-series/configurator/'
+      - '/trucks/anthem/configurator/**'
+      - '/trucks/granite-series/configurator/**'
+      - '/trucks/lr-series/configurator/**'
+      - '/trucks/lr-electric/configurator/**'
+      - '/trucks/md/configurator/**'
+      - '/trucks/md-electric/configurator/**'
+      - '/trucks/pinnacle-series/configurator/**'
+      - '/trucks/terrapro-series/configurator/**'
     target: /query-index.json
     properties:
       lastModified:
@@ -27,7 +45,6 @@ indices:
       description:
         select: head > meta[name="description"]
         value: attribute(el, "content")
-
   news-feed:
     include:
       - '/mack-news/*/**'
@@ -95,6 +112,9 @@ indices:
       author:
         select: head > meta[name="author"]
         value: attribute(el, "content")
+      date:
+        select: head > meta[name="date"]
+        value: attribute(el, "content")
       image:
         select: head > meta[property="og:image"]
         value: match(attribute(el, "content"), "https:\/\/[^/]+(/.*)")
@@ -114,12 +134,36 @@ indices:
       - '/footer'
       - '/**/nav'
       - '/nav'
+      - '/**/nav-*'
+      - '/nav-*'
+      - '/**/*-nav'
+      - '/*-nav'
+      - '/**/sub-nav-*'
+      - '/sub-nav-*'
       - '/fragments/**'
       - '/**/sub-nav'
       - '/block-library/**'
       - '/mack-news/fragments/**'
       - '/parts-and-services/support/body-builders/news-and-events/'
       - '/magazine/articles/'
+      - '/truck-configurator/'
+      - '/truck-configurator/**'
+      - '/trucks/anthem/configurator/'
+      - '/trucks/granite-series/configurator/'
+      - '/trucks/lr-series/configurator/'
+      - '/trucks/lr-electric/configurator/'
+      - '/trucks/md/configurator/'
+      - '/trucks/md-electric/configurator/'
+      - '/trucks/pinnacle-series/configurator/'
+      - '/trucks/terrapro-series/configurator/'
+      - '/trucks/anthem/configurator/**'
+      - '/trucks/granite-series/configurator/**'
+      - '/trucks/lr-series/configurator/**'
+      - '/trucks/lr-electric/configurator/**'
+      - '/trucks/md/configurator/**'
+      - '/trucks/md-electric/configurator/**'
+      - '/trucks/pinnacle-series/configurator/**'
+      - '/trucks/terrapro-series/configurator/**'
     target: /query-index.json
     properties:
       lastModified:

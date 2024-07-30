@@ -1,7 +1,7 @@
 {
   "name": "@adobe/helix-project-boilerplate",
   "private": true,
-  "version": "1.0.0",
+  "version": "21.0.0",
   "description": "Starter project for Adobe Helix",
   "scripts": {
     "test": "wtr \"./test/**/*.test.js\" --node-resolve --port=2000 --coverage",
@@ -23,7 +23,6 @@
   "lint-staged": {
     "**/*.js": "npm run lint:js",
     "**/*.css": "npm run lint:css"
-    
   },
   "homepage": "https://github.com/adobe/helix-project-boilerplate#readme",
   "devDependencies": {

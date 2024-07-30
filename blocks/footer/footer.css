@@ -1,12 +1,20 @@
+/* stylelint-disable no-descending-specificity */
+
 .footer {
   background: var(--c-primary-black);
   color: var(--c-secondary-silver);
+  line-height: 150%;
 }
 
 .footer svg {
   display: block;
   height: 1em;
   width: 1em;
+}
+
+.footer a:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
 }
 
 /* General ul styles */
@@ -76,11 +84,13 @@
   align-items: center;
   justify-content: space-between;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .footer-truck-list__title,
 .footer-newsletter__title {
   font-family: var(--ff-body-bold);
+  font-weight: normal;
   font-size: 12px;
   line-height: 16px;
   letter-spacing: 1.92px;
@@ -131,25 +141,22 @@
   padding: 40px 16px;
   /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
   grid-template-areas:
-    'logo'
-    'menu'
-    'newsletter'
-    'social';
+    "logo"
+    "menu"
+    "newsletter"
+    "social";
 }
 
 /* Logo */
 .footer-menu__logo {
+  --color-icon: var(--c-primary-white);
+
   grid-area: logo;
 }
 
-/* stylelint-disable-next-line no-descending-specificity */
 .footer-menu__logo svg {
   width: 193px;
   height: 19px;
-}
-
-.footer-menu__logo svg path[fill] {
-  fill: var(--c-primary-white);
 }
 
 /* Menu */
@@ -164,7 +171,6 @@
   width: calc(50% - 20px);
 }
 
-/* stylelint-disable-next-line no-descending-specificity */
 .footer-menu__column a {
   color: var(--c-secondary-silver);
   font-family: var(--ff-body);
@@ -172,7 +178,6 @@
   line-height: var(--body-2-line-height);
 }
 
-/* stylelint-disable-next-line no-descending-specificity */
 .footer-menu__column a:hover {
   text-decoration: underline;
 }
@@ -182,140 +187,18 @@
   grid-area: newsletter;
 }
 
-/* stylelint-disable-next-line no-descending-specificity */
+.footer-newsletter a {
+  color: currentcolor;
+  text-decoration: underline;
+}
+
+.footer-newsletter a:hover {
+  color: var(--c-primary-white);
+}
+
 .footer-newsletter__title {
   margin-bottom: 12px;
 }
-
-/* eloqua footer form styles - START */
-.footer-newsletter .eloqua-form {
-  margin: 0;
-}
-
-.footer-newsletter .eloqua-form p {
-  font-family: var(--ff-body);
-}
-
-.footer-newsletter .elq-form .field-style {
-  margin: 0;
-}
-
-.footer-newsletter .elq-form .item-padding {
-  padding: 0;
-}
-
-.footer-newsletter .eloqua-form .elq-form .email-and-submit-container {
-  display: block;
-  position: relative;
-  max-width: 320px;
-  margin-bottom: 5px;
-}
-
-.footer-newsletter .eloqua-form .elq-form .email-and-submit-container input[type='text'] {
-  background-color: var(--c-primary-white);
-  border: none;
-  color: var(--c-secondary-graphite);
-  font-family: var(--ff-body);
-  font-size: 13px;
-  height: 48px;
-  line-height: 13px;
-  padding: 14px 48px 14px 14px;
-}
-
-.footer-newsletter .elq-form input[type='text']::placeholder {
-  color: var(--c-secondary-graphite);
-}
-
-.footer-newsletter .elq-form .submit-button {
-  padding: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 48px !important;
-  height: 48px !important;
-  background: var(--button-secondary-gold-enabled) url('../../icons/arrow-right.svg') no-repeat center;
-}
-
-.footer-newsletter .elq-form .submit-button:hover {
-  background-color: var(--button-secondary-gold-hover);
-}
-
-.footer-newsletter .elq-form .submit-button:active {
-  background-color: var(--button-secondary-gold-pressed);
-}
-
-.footer-newsletter .elq-form .loader {
-  position: absolute;
-  right: 10px;
-  bottom: 50%;
-  transform: translate(0, 50%);
-  border-top: 3px solid #212121;
-  margin-bottom: -12px;
-  background: #212121;
-}
-
-.footer-newsletter .elq-form .checkbox-label {
-  bottom: 0;
-  padding-left: 0;
-  font-family: var(--ff-body);
-  font-size: var(--body-2-font-size);
-  line-height: var(--body-2-font-size);
-}
-
-.footer-newsletter .checkbox-span {
-  position: relative;
-}
-
-.footer-newsletter .checkbox-span label[for] {
-  position: relative;
-  margin-left: 0;
-  white-space: break-spaces;
-  cursor: pointer;
-}
-
-.footer-newsletter .checkbox-span label[for]::before {
-  content: "";
-  width: 20px;
-  height: 20px;
-  display: inline-block;
-  border: solid 2px var(--c-secondary-dark-gold);
-  margin-right: 10px;
-  position: relative;
-  top: 4px;
-  background: var(--c-primary-black);
-}
-
-.footer-newsletter .checkbox-span input[type='checkbox'][id] {
-  width: 20px;
-  height: 20px;
-  position: absolute;
-  top: 4px;
-  left: 0;
-  padding: 0;
-}
-
-.footer-newsletter .checkbox-span input:checked~label[for]::after {
-  content: "\f00c";
-  font-family: var(--ff-fontawesome);
-  color: var(--c-secondary-dark-gold);
-  position: absolute;
-  font-size: 18px;
-  left: 1px;
-  top: -6px;
-  line-height: 18px;
-}
-
-.footer-newsletter .confirm-checkbox {
-  display: none !important;
-  user-select: none;
-  cursor: pointer;
-}
-
-.footer-newsletter .confirm-checkbox.show {
-  display: block !important;
-}
-
-/* eloqua footer form styles - END */
 
 /* Social media */
 .footer-menu__socialmedia {
@@ -325,7 +208,6 @@
   grid-area: social;
 }
 
-/* stylelint-disable-next-line no-descending-specificity */
 .footer-menu__socialmedia a {
   --color-icon: var(--c-tertiary-cool-gray);
 
@@ -336,7 +218,6 @@
   --color-icon: var(--c-primary-white);
 }
 
-/* stylelint-disable-next-line no-descending-specificity */
 .footer-menu__socialmedia svg {
   width: 24px;
   height: 24px;
@@ -353,12 +234,10 @@
   flex-wrap: wrap;
 }
 
-/* stylelint-disable-next-line no-descending-specificity */
 .footer-legal li {
   font-size: 13px;
 }
 
-/* stylelint-disable-next-line no-descending-specificity */
 .footer-legal a {
   font-family: var(--ff-body);
   font-style: normal;
@@ -369,18 +248,28 @@
 
 /* Scroll to top */
 
-.scroll-to-top {
-  display: none;
-  position: fixed;
-  margin: 0;
-  bottom: 30px;
-  right: 30px;
-  z-index: 99;
+.scroll-to-top-container {
+  padding: 24px;
+  display: block;
+  position: absolute;
+  top: calc(100vh - 1px);
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+a.scroll-to-top {
+  display: block;
   border: none;
   cursor: pointer;
   padding: 12px;
   background-color: var(--c-primary-gold);
   box-shadow: 0 8px 16px rgb(0 0 0 / 30%);
+  position: sticky;
+  top: calc(100vh - 24px - 50px);
+  z-index: 99;
+  pointer-events: all;
 }
 
 .scroll-to-top:hover {
@@ -391,7 +280,11 @@
   background-color: var(--button-secondary-gold-pressed);
 }
 
-/* stylelint-disable-next-line no-descending-specificity */
+.scroll-to-top:focus-visible {
+  outline: 2px solid var(--border-focus);
+  outline-offset: 2px;
+}
+
 .scroll-to-top svg {
   transform: rotate(-90deg);
   height: 24px;
@@ -467,12 +360,16 @@
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    gap: 44px;
+    justify-content: space-between;
     max-height: 100%;
+    width: 100%;
     overflow: auto;
   }
 
-  /* stylelint-disable-next-line no-descending-specificity */
+  .footer-truck-list__items li {
+    padding: 4px; /* reserve space for focus style */
+  }
+
   .footer-truck-list__items a {
     padding: 0;
   }
@@ -484,8 +381,8 @@
     gap: 16px;
     /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
     grid-template-areas:
-      'logo menu newsletter'
-      'social menu newsletter';
+      "logo menu newsletter"
+      "social menu newsletter";
   }
 
   /* Logo */
@@ -505,5 +402,25 @@
   /* Legal */
   .footer-legal ul {
     margin: 0 auto;
+  }
+}
+
+/* cutsom footer styles */
+.footer__custom .footer-menu {
+  grid-template-areas:
+    "logo"
+    "social";
+}
+
+@media (min-width: 1140px) {
+  .footer__custom .footer-menu {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 1fr;
+    /* stylelint-disable-next-line declaration-block-no-redundant-longhand-properties */
+    grid-template-areas: "logo social";
+  }
+
+  .footer__custom .footer-menu__socialmedia {
+    justify-self: flex-end;
   }
 }

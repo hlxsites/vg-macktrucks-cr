@@ -1,7 +1,7 @@
 {
-  "total": 26,
+  "total": 64,
   "offset": 0,
-  "limit": 26,
+  "limit": 64,
   "data": [
     {
       "Key": "Low resolution video message",
@@ -14,6 +14,10 @@
     {
       "Key": "SUBSCRIBE TO BULLDOG",
       "Text": "SUBSCRIBE TO BULLDOG"
+    },
+    {
+      "Key": "Email Address",
+      "Text": "Email Address"
     },
     {
       "Key": "Overview",
@@ -88,40 +92,32 @@
       "Text": "channel"
     },
     {
-      "Key": "Open Gallery",
-      "Text": "Open Gallery"
-    },
-    {
-      "Key": "no eloqua message",
+      "Key": "no form message",
       "Text": "We cannot show the content because you have not given us permission to store cookie files"
     },
     {
-      "Key": "no eloqua link message",
+      "Key": "no form link message",
       "Text": "Change cookie settings"
     },
     {
       "Key": "vinlabel",
       "Text": "Enter your 17-digit VIN (Vehicle Identification Number)"
-    }, 
-    {
-      "Key": "submit",
-      "Text": "Submit"
-    }, 
+    },
     {
       "Key": "vinformat",
-      "Text": "Please provide correct vin number format"
-    }, 
+      "Text": "The VIN entered is not valid for Mack Truck vehicles"
+    },
     {
       "Key": "result text",
-      "Text": "${count} recalls available for \"${vin}\" VIN"
-    }, 
+      "Text": "${count} recalls available for \"${vin}\""
+    },
     {
       "Key": "recalls",
       "Text": "Recalls"
     },
     {
       "Key": "recall_date",
-      "Text": "Issue date"
+      "Text": "Issue Date"
     },
     {
       "Key": "recall_description",
@@ -134,7 +130,7 @@
     {
       "Key": "remedy_description",
       "Text": "Remedy"
-    }, 
+    },
     {
       "Key": "published_info",
       "Text": "Information last updated"
@@ -150,38 +146,118 @@
     {
       "Key": "recall_incomplete",
       "Text": "Recall Incomplete"
-    }, 
+    },
     {
       "Key": "recall_incomplete_no_remedy",
-      "Text": "Recall In Complete, remedy not available"
-    }, 
+      "Text": "Recall Incomplete, remedy not available"
+    },
     {
       "Key": "loading recalls",
-      "Text": " Loading Recalls ....."
+      "Text": "Loading recalls"
     },
     {
       "Key": "no recalls",
-      "Text": "No recalls for vin"
+      "Text": "No recalls for VIN"
     },
     {
       "Key": "mfr_notes",
       "Text": "Next steps"
-    }, 
+    },
+    {
+      "Key": "submit",
+      "Text": "Submit"
+    },
     {
       "Key": "mfr_recall_number",
       "Text": "Brand Recall Number"
-    }, 
+    },
     {
       "Key": "nhtsa_recall_number",
-      "Text": "NHTSA recall number"
+      "Text": "NHTSA Recall Number"
     },
     {
       "Key": "recall_oldest_info",
-      "Text": "Recall information available since: Jan 15,2008"
+      "Text": "Recall information available since:"
+    },
+    {
+      "Key": "recall_available_info",
+      "Text": "since:"
+    },
+    {
+      "Key": "make",
+      "Text": "Make"
+    },
+    {
+      "Key": "model",
+      "Text": "Model"
+    },
+    {
+      "Key": "model year",
+      "Text": "Model Year"
+    },
+    {
+      "Key": "tc_recall_nbr",
+      "Text": "Transport Canada Number"
+    },
+    {
+      "Key": "Open Gallery",
+      "Text": "Open Gallery"
+    },
+    {
+      "Key": "home",
+      "Text": "home"
+    },
+    {
+      "Key": "breadcrumb",
+      "Text": "Breadcrumb"
     },
     {
       "Key": "All trucks",
       "Text": "All trucks"
+    },
+    {
+      "Key": "form-subscribe-magazine:heading",
+      "Text": "Subscribe to Bulldog<sup>®</sup> Magazine"
+    },
+    {
+      "Key": "form-subscribe-magazine:text",
+      "Text": "Be the first to know all the news about Mack Trucks and our products, plus other exciting activities."
+    },
+    {
+      "Key": "404 Back link title",
+      "Text": "Go back"
+    },
+    {
+      "Key": "Play video",
+      "Text": "Play video"
+    },
+    {
+      "Key": "Pause video",
+      "Text": "Pause video"
+    },
+    {
+      "Key": "autoscroll_switch",
+      "Text": "Auto:,On,Off"
+    },
+    {
+      "Key": "Logo link",
+      "Text": "Go to Mack Trucks homepage"
+    },
+    {
+      "Key": "go to top",
+      "Text": "Go to the top of the page"
+    },
+    {
+      "Key": "Close menu",
+      "Text": "Close menu"
+    },
+    {
+      "Key": "Close modal",
+      "Text": "Close modal"
+    },
+    {
+      "Key": "All Products",
+      "Text": "All Products"
     }
   ],
   ":type": "sheet"

@@ -192,11 +192,11 @@ ul.v2-truck-lineup__navigation {
 
 /* stylelint-disable-next-line no-descending-specificity */
 .v2-truck-lineup__navigation-item button {
-  --color-icon: var(--c-secondary-steel);
+  --color-icon: var(--text-subtle);
 
   background: 0 0;
   border: 2px solid transparent;
-  color: var(--c-secondary-steel);
+  color: var(--text-subtle);
   display: flex;
   font-family: var(--ff-subheadings-medium);
   font-size: var(--headline-5-font-size);
@@ -271,7 +271,7 @@ ul.v2-truck-lineup__navigation {
 .v2-truck-lineup__arrow-controls button {
   background-color: var(--c-primary-white);
   border: 1px solid var(--c-primary-black);
-  color: var(--c-primary-black);
+  color: var(--text-color);
   font-size: 0;
   line-height: 0;
   margin: 0;
@@ -280,17 +280,26 @@ ul.v2-truck-lineup__navigation {
 }
 
 .v2-truck-lineup__arrow-controls button:hover {
-  background-color: #F1F1F1;
-  border-color: #A7A8A9;
+  background-color: var(--c-primary-gray);
+  border-color: var(--button-tertiary-white-border-hover);
 }
 
 .v2-truck-lineup__arrow-controls button:active {
-  background-color: #E1DFDD;
-  border-color: #D9D9D9;
+  background-color: var(--button-tertiary-white-pressed);
+  border-color: var(--button-tertiary-white-pressed);
 }
 
 .v2-truck-lineup__arrow-controls button:focus {
+  outline: 0;
+}
+
+.v2-truck-lineup__arrow-controls button:focus-visible {
   outline: 2px solid var(--border-focus);
+}
+
+.v2-truck-lineup__arrow-controls button .icon svg {
+  height: 24px;
+  width: 24px;
 }
 
 @media screen and (min-width: 744px) {

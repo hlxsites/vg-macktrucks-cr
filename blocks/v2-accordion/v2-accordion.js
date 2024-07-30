@@ -1,11 +1,14 @@
-import { createElement } from '../../scripts/common.js';
+import {
+  createElement,
+  decorateIcons,
+} from '../../scripts/common.js';
 import fragmentBlock from '../fragment/fragment.js';
 
 const blockName = 'v2-accordion';
 
-/* Function checks if the content of the provied element is just a link to other doc */
+/* Function checks if the content of the provided element is just a link to other doc */
 function isContentLink(el) {
-  // The assumpions:
+  // The assumptions:
   // 1. The content is just plain text - no HTML inside
   // 2. The link starts from '/' and doesn't contain any white space character
   return el.innerHTML === el.textContent && /^\/(\S+)$/g.test(el.innerHTML);
@@ -29,12 +32,8 @@ export default async function decorate(block) {
     );
 
     const headerButton = createElement('button', { classes: `${blockName}__button` });
-    const arrowEl = createElement('div', { classes: `${blockName}__close` });
-
-    const dropdownArrowIcon = document.createRange().createContextualFragment(`
-      <svg xmlns="http://www.w3.org/2000/svg"><use href="#icons-sprite-dropdown-caret"></use></svg>`);
-    arrowEl.appendChild(...dropdownArrowIcon.children);
-    headerButton.append(accordionHeader, arrowEl);
+    const dropdownArrowIcon = createElement('span', { classes: [`${blockName}__icon`, 'icon', 'icon-dropdown-caret'] });
+    headerButton.append(accordionHeader, dropdownArrowIcon);
 
     const contentEl = createElement('div', { classes: [`${blockName}__content`, `${blockName}__content-close`] });
 
@@ -72,6 +71,7 @@ export default async function decorate(block) {
       accordionEl.classList.toggle(`${blockName}__item-close`);
     });
 
+    decorateIcons(accordionEl);
     return accordionEl;
   });
 
@@ -81,4 +81,5 @@ export default async function decorate(block) {
     const result = await acc;
     block.append(result);
   });
+  decorateIcons(block);
 }

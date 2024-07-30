@@ -1,5 +1,7 @@
-import { decorateIcons } from '../../scripts/lib-franklin.js';
-import { createElement } from '../../scripts/common.js';
+import {
+  createElement,
+  decorateIcons,
+} from '../../scripts/common.js';
 
 /**
  * @typedef {Object} HotspotContent
@@ -284,7 +286,7 @@ function addMobileTabNavigation(block, title, hotspotAreaId) {
   }
 
   const link = createElement('a', { props: { href: `#${title.textContent}` } });
-  link.textContent = title.innerHTML;
+  link.innerHTML = title.innerHTML;
   li.append(link);
   mobileNav.firstElementChild.append(li);
 

@@ -1,7 +1,16 @@
-import { decorateIcons } from '../../scripts/lib-franklin.js';
-import { createElement } from '../../scripts/common.js';
+import {
+  createElement,
+  decorateIcons,
+  getTextLabel,
+} from '../../scripts/common.js';
+import {
+  createArrowControls,
+  listenScroll,
+  setCarouselPosition,
+} from '../../scripts/carousel-helper.js';
 
 const blockName = 'v2-truck-lineup';
+const tabContentClass = `.${blockName}__content`;
 
 function stripEmptyTags(main, child) {
   if (child !== main && child.innerHTML.trim() === '') {
@@ -63,8 +72,8 @@ function buildTabNavigation(tabItems, clickHandler) {
       }, 600);
     });
 
-    const tabContent = tabItem.querySelector(':scope > div');
-    const icon = tabContent.dataset.truckCarouselIcon;
+    const tabContent = tabItem.querySelector(tabContentClass);
+    const icon = tabContent && tabContent?.dataset.truckCarouselIcon;
     const svgIcon = icon ? `<span class="icon icon-${icon}"></span>` : '';
     button.innerHTML = `${tabContent.dataset.truckCarousel}${svgIcon}`;
     listItem.append(button);
@@ -115,84 +124,24 @@ const updateActiveItem = (index) => {
   });
 };
 
-const listenScroll = (carousel) => {
-  const elements = carousel.querySelectorAll(':scope > *');
-
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (
-        entry.isIntersecting
-        && entry.intersectionRatio >= 0.9
-      ) {
-        const activeItem = entry.target;
-        const currentIndex = [...activeItem.parentNode.children].indexOf(activeItem);
-        updateActiveItem(currentIndex);
-      }
-    });
-  }, {
-    root: carousel,
-    threshold: 0.9,
-  });
-
-  elements.forEach((el) => {
-    io.observe(el);
-  });
-};
-
-const setCarouselPosition = (carousel, index) => {
-  const firstEl = carousel.firstElementChild;
-  const scrollOffset = firstEl.getBoundingClientRect().width;
-  const style = window.getComputedStyle(firstEl);
-  const marginleft = parseFloat(style.marginLeft);
-
-  carousel.scrollTo({
-    left: index * scrollOffset + marginleft,
-    behavior: 'smooth',
-  });
-};
-
-const createArrowControls = (carousel) => {
-  function scroll(direction) {
-    const activeItem = carousel.querySelector(`.${blockName}__image-item.active`);
-    let index = [...activeItem.parentNode.children].indexOf(activeItem);
-    if (direction === 'left') {
-      index -= 1;
-      if (index === -1) {
-        index = carousel.childElementCount;
-      }
-    } else {
-      index += 1;
-      if (index > carousel.childElementCount - 1) {
-        index = 0;
-      }
+const scrollObserverFunction = (elements, entry) => {
+  elements.forEach((el, index) => {
+    if (el === entry.target && entry.intersectionRatio >= 0.9) {
+      updateActiveItem(index);
     }
-
-    setCarouselPosition(carousel, index);
-  }
-
-  const arrowControls = createElement('ul', { classes: [`${blockName}__arrow-controls`] });
-  const arrows = document.createRange().createContextualFragment(`
-    <li>
-      <button aria-label="Previous">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M21 11C21.5523 11 22 11.4477 22 12C22 12.5523 21.5523 13 21 13V11ZM2.29289 12.7071C1.90237 12.3166 1.90237 11.6834 2.29289 11.2929L8.65685 4.92893C9.04738 4.53841 9.68054 4.53841 10.0711 4.92893C10.4616 5.31946 10.4616 5.95262 10.0711 6.34315L4.41421 12L10.0711 17.6569C10.4616 18.0474 10.4616 18.6805 10.0711 19.0711C9.68054 19.4616 9.04738 19.4616 8.65685 19.0711L2.29289 12.7071ZM21 13L3 13V11L21 11V13Z" fill="currentColor"/>
-        </svg>
-      </button>
-    </li>
-    <li>
-      <button aria-label="Next">
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M3 11C2.44772 11 2 11.4477 2 12C2 12.5523 2.44772 13 3 13L3 11ZM21.7071 12.7071C22.0976 12.3166 22.0976 11.6834 21.7071 11.2929L15.3431 4.92893C14.9526 4.53841 14.3195 4.53841 13.9289 4.92893C13.5384 5.31946 13.5384 5.95262 13.9289 6.34315L19.5858 12L13.9289 17.6569C13.5384 18.0474 13.5384 18.6805 13.9289 19.0711C14.3195 19.4616 14.9526 19.4616 15.3431 19.0711L21.7071 12.7071ZM3 13L21 13V11L3 11L3 13Z" fill="currentColor"/>
-        </svg>
-      </button>
-    </li>
-  `);
-  arrowControls.append(...arrows.children);
-  carousel.insertAdjacentElement('beforebegin', arrowControls);
-  const [prevButton, nextButton] = arrowControls.querySelectorAll(':scope button');
-  prevButton.addEventListener('click', () => scroll('left'));
-  nextButton.addEventListener('click', () => scroll('right'));
+  });
 };
+
+const arrowFragment = document.createRange().createContextualFragment(`<li>
+  <button aria-label="${getTextLabel('Previous')}">
+    <span class="icon icon-arrow-left" />
+  </button>
+</li>
+<li>
+  <button aria-label="${getTextLabel('Next')}">
+    <span class="icon icon-arrow-right" />
+  </button>
+</li>`);
 
 export default async function decorate(block) {
   const descriptionContainer = block.querySelector(':scope > div');
@@ -208,17 +157,16 @@ export default async function decorate(block) {
   const tabNavigation = buildTabNavigation(tabItems, (index) => {
     setCarouselPosition(imagesContainer, index);
   });
-  await decorateIcons(tabNavigation);
 
   // Arrows
-  createArrowControls(imagesContainer);
+  createArrowControls(imagesContainer, `.${blockName}__image-item.active`, [`${blockName}__arrow-controls`], arrowFragment);
 
   descriptionContainer.parentNode.append(tabNavigation);
 
   tabItems.forEach((tabItem) => {
     tabItem.classList.add(`${blockName}__desc-item`);
-    const tabContent = tabItem.querySelector(':scope > div');
-    const headings = tabContent.querySelectorAll('h1, h2, h3, h4, h5, h6');
+    const tabContent = tabItem.querySelector(tabContentClass);
+    const headings = tabContent ? tabContent.querySelectorAll('h1, h2, h3, h4, h5, h6') : [];
     [...headings].forEach((heading) => heading.classList.add(`${blockName}__title`));
 
     // create div for image and append inside image div container
@@ -248,15 +196,6 @@ export default async function decorate(block) {
     const buttonContainer = createElement('div', { classes: `${blockName}__buttons-container` });
     const buttons = tabContent.querySelectorAll('.button-container');
 
-    buttons.forEach((bt, i) => {
-      const buttonLink = bt.firstElementChild;
-
-      if (i > 0) {
-        buttonLink.classList.remove('button--primary');
-        buttonLink.classList.add('button--secondary');
-      }
-    });
-
     if (buttons.length) {
       const parentButtonContainer = buttons[0].parentNode;
       buttonContainer.append(...buttons);
@@ -265,7 +204,8 @@ export default async function decorate(block) {
   });
 
   // update the button indicator on scroll
-  listenScroll(imagesContainer);
+  const elements = imagesContainer.querySelectorAll(':scope > *');
+  listenScroll(imagesContainer, elements, scrollObserverFunction, 0.9);
 
   // Update text position + navigation line when page is resized
   window.addEventListener('resize', () => {
@@ -276,4 +216,6 @@ export default async function decorate(block) {
       setNavigationLine(tabNavigation);
     }, 100);
   });
+
+  decorateIcons(block);
 }

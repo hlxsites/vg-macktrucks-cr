@@ -2,7 +2,7 @@ import { variantsClassesToBEM } from '../../scripts/common.js';
 
 export default async function decorate(block) {
   const blockName = 'v2-cards';
-  const variantClasses = ['gray-cards', 'horizontal'];
+  const variantClasses = ['no-background', 'horizontal', 'image-aspect-ratio-7-5', 'large-heading', '4-cards-row'];
   variantsClassesToBEM(block.classList, variantClasses, blockName);
 
   const cardsItems = [...block.querySelectorAll(':scope > div')];
@@ -30,8 +30,13 @@ export default async function decorate(block) {
   buttons.forEach((el) => {
     el.classList.add(`${blockName}__button-container`);
     [...el.querySelectorAll('a')].forEach((link) => {
-      link.classList.add('standalone-link', `${blockName}__button`);
-      link.classList.remove('button', 'button--primary');
+      if (link.classList.contains('button--primary')
+          || link.classList.contains('button--secondary')
+          || link.classList.contains('button--red')) {
+        link.classList.add('button--small');
+      } else {
+        link.classList.add('standalone-link', `${blockName}__button`);
+      }
     });
   });
 }

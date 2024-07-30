@@ -2,7 +2,9 @@ import {
   getMetadata,
   createOptimizedPicture,
 } from '../../scripts/lib-franklin.js';
-import { createElement } from '../../scripts/common.js';
+import {
+  createElement,
+} from '../../scripts/common.js';
 
 async function buildArticleHero() {
   const title = getMetadata('og:title');
@@ -129,9 +131,20 @@ export default async function decorate(doc) {
 
   parentSection.insertAdjacentElement('afterbegin', firstHeading);
 
-  currentArticle.append(firstHeading, author, shareSection1, parentSection, shareSection2);
+  currentArticle.append(
+    firstHeading,
+    author,
+    shareSection1,
+    parentSection,
+    shareSection2,
+  );
   articleTexts.append(currentArticle, recommendationsSection, recentSection);
-  article.append(breadSection, heroSection, articleTexts, subscribeContent);
+  article.append(
+    breadSection,
+    heroSection,
+    articleTexts,
+    ...(subscribeContent ? [subscribeContent] : []),
+  );
 
   container.innerText = '';
   container.append(article);

@@ -1,0 +1,175 @@
+.v2-navigation-hub-container {
+  --section-padding-top: 0;
+}
+
+.v2-navigation-hub-wrapper {
+  --navigation-hub-card-background: var(--c-primary-gray);
+  --navigation-hub-card-secondary-bg: var(--c-secondary-silver);
+  --navigation-hub-column-width: 100%;
+  --navigation-hub-max-content-width: 430px;
+}
+
+.v2-navigation-hub {
+  --navigation-hub-card-padding: 24px 16px;
+  --navigation-hub-card-secondary-padding: 40px 16px;
+
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  position: relative;
+  max-width: 1440px;
+}
+
+.v2-navigation-hub__column {
+  width: var(--navigation-hub-column-width);
+}
+
+.v2-navigation-hub__media-container {
+  order: 1;
+}
+
+.v2-navigation-hub__media-container img {
+  background-color: var(--navigation-hub-card-background);
+}
+
+.v2-navigation-hub__card-container {
+  background-color: var(--navigation-hub-card-background);
+  order: 2;
+}
+
+.v2-navigation-hub__card-content > * {
+  max-width: var(--navigation-hub-max-content-width);
+}
+
+.v2-navigation-hub__card-content {
+  padding: var(--navigation-hub-card-padding);
+}
+
+.v2-navigation-hub__card-nav-title,
+.v2-navigation-hub__card-content h2 {
+  margin: 0 0 24px;
+}
+
+.v2-navigation-hub__card-content .button-container {
+  margin: 41px 0 0;
+}
+
+.v2-navigation-hub__card-content .button-container a {
+  margin: 0;
+}
+
+.v2-navigation-hub__card-navigation {
+  padding: var(--navigation-hub-card-secondary-padding);
+  background-color: var(--navigation-hub-card-secondary-bg);
+}
+
+.v2-navigation-hub__card-nav-title {
+  font-family: var(--ff-body-bold);
+  text-transform: uppercase;
+  color: var(--c-tertiary-cool-gray);
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.16em;
+}
+
+.v2-navigation-hub__card-nav-list {
+  display: grid;
+  gap: 16px 20px;
+}
+
+@media (min-width: 568px) {
+  .v2-navigation-hub__card-nav-list {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-auto-flow: column;
+    max-width: 568px;
+  }
+
+  .v2-navigation-hub__card-nav-list li,
+  .v2-navigation-hub__card-nav-list:has(> :nth-child(7)) li:nth-child(4) {
+    grid-column: 1;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  .v2-navigation-hub__card-nav-list li:nth-child(n+4),
+  .v2-navigation-hub__card-nav-list:has(> :nth-child(7)) li:nth-child(n+5) {
+    grid-column: 2;
+  }
+}
+
+.v2-navigation-hub__card-nav-list a:any-link {
+  align-items: flex-start;
+}
+
+.v2-navigation-hub__card-nav-list a:hover,
+.v2-navigation-hub__card-nav-list a:focus-visible {
+  --color-icon: currentcolor;
+}
+
+.v2-navigation-hub__card-nav-list .icon,
+.v2-navigation-hub__card-nav-list .icon svg {
+  width: 16px;
+  height: 16px;
+}
+
+.v2-navigation-hub__image {
+  width: 100%;
+  display: block;
+  aspect-ratio: 16/10;
+  object-fit: cover;
+  object-position: center;
+}
+
+@media (min-width: 1200px) {
+  .v2-navigation-hub-wrapper {
+    --navigation-hub-column-width: calc(50% + 80px);
+    --navigation-hub-max-content-width: 510px;
+  }
+
+  .v2-navigation-hub {
+    --navigation-hub-card-padding: 54px 90px;
+    --navigation-hub-card-secondary-padding: var(--navigation-hub-card-padding);
+
+    flex-direction: row;
+  }
+
+  .v2-navigation-hub__card-container,
+  .v2-navigation-hub__media-container {
+    order: unset;
+  }
+
+  .v2-navigation-hub__card-container {
+    z-index: 1;
+  }
+
+  .v2-navigation-hub__media-container {
+    background-color: unset;
+    width: 50%;
+    max-height: calc(100% - 100px);
+    position: absolute;
+    overflow: hidden;
+    z-index: 0;
+  }
+
+  .v2-navigation-hub__media-left {
+    justify-content: flex-end;
+    padding: 0 0 60px;
+  }
+
+  .v2-navigation-hub__media-left .v2-navigation-hub__media-container {
+    left: 0;
+    bottom: 0;
+  }
+
+  .v2-navigation-hub__media-right {
+    --navigation-hub-card-padding: 54px 90px 54px 200px;
+  }
+
+  .v2-navigation-hub__media-right .v2-navigation-hub__media-container {
+    right: 0;
+  }
+
+  .v2-navigation-hub__media-right .v2-navigation-hub__card-container {
+    margin: 100px 0 0;
+  }
+}
